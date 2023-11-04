@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {FC, useRef} from 'react';
 import {
   NavigationContainer,
@@ -8,6 +8,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from './types';
 import {NavigationService} from '../services';
 import {HomeScreen, LoginScreen} from '../screens';
+import {colors} from '../constants';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -18,6 +19,7 @@ const RootNavigator: FC = () => {
 
   return (
     <NavigationContainer ref={navigationRef}>
+      <StatusBar backgroundColor={colors.WHITE} />
       <Stack.Navigator
         screenOptions={{
           animation: 'simple_push',
