@@ -1,7 +1,7 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/types';
 
-export type LoginScreenProps = NativeStackScreenProps<
+export type RegisterScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  'Login'
+  'Register'
 >;

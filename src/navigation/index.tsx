@@ -7,7 +7,7 @@ import {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from './types';
 import {NavigationService} from '../services';
-import {HomeScreen, LoginScreen} from '../screens';
+import {HomeScreen, LoginScreen, RegisterScreen} from '../screens';
 import {colors} from '../constants';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -23,6 +23,7 @@ const RootNavigator: FC = () => {
       <Stack.Navigator
         screenOptions={{
           animation: 'simple_push',
+          headerShown: false,
         }}
         initialRouteName="Login">
         <Stack.Screen
@@ -37,6 +38,7 @@ const RootNavigator: FC = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen name="Register" component={RegisterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

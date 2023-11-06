@@ -8,6 +8,6 @@ const email = Yup.string()
 
 const password = Yup.string()
   .required('Vui lòng nhập mật khẩu')
-  .min(8, 'Mật khẩu có ít nhất 6 kí tự');
+  .min(6, 'Mật khẩu có ít nhất 6 kí tự');
 
 export {email, password, username};

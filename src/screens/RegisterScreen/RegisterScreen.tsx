@@ -8,14 +8,13 @@ import {
   View,
 } from 'react-native';
 import React, {FC, useCallback, useState} from 'react';
-import {styles} from './LoginScreen.styled';
+import {RegisterScreenProps} from './RegisterScreen.types';
+import {styles} from './RegisterScreen.styled';
 import {colors} from '../../constants';
-import {LoginScreenProps} from './LoginScreen.types';
 import {useFormik} from 'formik';
-import {LoginSchema} from '../../services/validators';
 import {Button} from '../../components';
 
-const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
+const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
   const [checked, setChecked] = useState(false);
 
   const handleSubmit = useCallback((data: any) => {
@@ -27,10 +26,13 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
   const formik = useFormik({
     initialValues: {
       username: '',
+      name: '',
       password: '',
+      email: '',
+      rePassword: '',
     },
     onSubmit: handleSubmit,
-    validationSchema: LoginSchema,
+    // validationSchema: LoginSchema,
   });
 
   return (
@@ -42,10 +44,10 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
       />
       <View style={styles.container}>
         <View style={styles.titleWrapper}>
-          <Text style={styles.titleText}>Đăng nhập</Text>
+          <Text style={styles.titleText}>Đăng ký</Text>
           <View style={styles.instructWrapper}>
-            <Text style={styles.instructText}>Bạn chưa có tài khoản?</Text>
-            <TouchableOpacity onPress={() => navigation.push('Register')}>
+            <Text style={styles.instructText}>Bạn đã có tài khoản?</Text>
+            <TouchableOpacity onPress={() => navigation.pop()}>
               <Text
                 style={[
                   styles.instructText,
@@ -54,10 +56,25 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
                     color: colors.GREEN,
                   },
                 ]}>
-                Đăng ký
+                Đăng nhập
               </Text>
             </TouchableOpacity>
           </View>
+        </View>
+        <View>
+          <TextInput
+            value={formik.values.name}
+            placeholder="Họ và tên"
+            placeholderTextColor={colors.SEMI_GRAY}
+            style={styles.inputStyled}
+            onBlur={formik.handleBlur('name')}
+            onChangeText={text => formik.setFieldValue('name', text)}
+          />
+          {formik.errors.name && (
+            <View style={styles.error_message}>
+              <Text style={{color: colors.RED}}>{formik.errors.name}</Text>
+            </View>
+          )}
         </View>
         <View>
           <TextInput
@@ -90,6 +107,24 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
             </View>
           )}
         </View>
+        <View>
+          <TextInput
+            value={formik.values.rePassword}
+            placeholder="Nhập lại mật khẩu"
+            placeholderTextColor={colors.SEMI_GRAY}
+            style={styles.inputStyled}
+            secureTextEntry
+            onBlur={formik.handleBlur('rePassword')}
+            onChangeText={text => formik.setFieldValue('rePassword', text)}
+          />
+          {formik.errors.rePassword && (
+            <View style={styles.error_message}>
+              <Text style={{color: colors.RED}}>
+                {formik.errors.rePassword}
+              </Text>
+            </View>
+          )}
+        </View>
         <View style={styles.rowWrapper}>
           <TouchableOpacity
             style={styles.checkBoxWrapper}
@@ -104,22 +139,24 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
                 />
               )}
             </View>
-            <Text style={styles.remember}>Ghi nhớ</Text>
+            <Text style={styles.remember}>
+              Tôi đồng ý với các điều khoản và điều kiện
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Text style={styles.forgot}>Quên mật khẩu?</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <Button
           onPress={() => {
             formik.handleSubmit();
           }}
-          text="Đăng nhập"
-          style={{marginTop: 32}}
+          text="Đăng ký"
+          style={{marginTop: 12}}
         />
       </View>
     </ScrollView>
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
