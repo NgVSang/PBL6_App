@@ -9,6 +9,7 @@ import {RootStackParamList} from './types';
 import {NavigationService} from '../services';
 import {HomeScreen, LoginScreen, RegisterScreen} from '../screens';
 import {colors} from '../constants';
+import DrawerNavigation from './DrawerNavigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,6 +31,13 @@ const RootNavigator: FC = () => {
           name="Login"
           component={LoginScreen}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Drawer"
+          component={DrawerNavigation}
+          options={{
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           name="Home"

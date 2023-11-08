@@ -21,6 +21,10 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
   const handleSubmit = useCallback((data: any) => {
     try {
       console.log(data);
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'Drawer'}],
+      });
     } catch (error) {}
   }, []);
 
