@@ -14,18 +14,42 @@ import {LoginScreenProps} from './LoginScreen.types';
 import {useFormik} from 'formik';
 import {LoginSchema} from '../../services/validators';
 import {Button} from '../../components';
+import {AuthApi} from '../../services/api';
+import Toast from 'react-native-toast-message';
+import {useDispatch} from 'react-redux';
+import {setCredential, setUser} from '../../redux/reducers';
+import {setHeaderConfigAxios} from '../../services/api/axios';
 
 const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = useCallback((data: any) => {
+  const handleSubmit = useCallback(async (data: any) => {
     try {
-      console.log(data);
+      setIsLoading(true);
+      const res = await AuthApi.login(data);
+      dispatch(
+        setCredential({
+          token: res.data.token,
+        }),
+      );
+      setHeaderConfigAxios(res.data.token);
+      // const user = await AuthApi.getProfile();
+      // dispatch(setUser(user.data[0]));
       navigation.reset({
         index: 0,
         routes: [{name: 'Drawer'}],
       });
-    } catch (error) {}
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: 'Thông tin đăng nhập không chính xác',
+        text2: 'Vui lòng thử lại',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
   const formik = useFormik({
@@ -118,6 +142,7 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
           onPress={() => {
             formik.handleSubmit();
           }}
+          isLoading={isLoading}
           text="Đăng nhập"
           style={{marginTop: 32}}
         />

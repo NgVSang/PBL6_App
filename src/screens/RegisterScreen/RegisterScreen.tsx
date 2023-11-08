@@ -13,26 +13,59 @@ import {styles} from './RegisterScreen.styled';
 import {colors} from '../../constants';
 import {useFormik} from 'formik';
 import {Button} from '../../components';
+import {RegisterSchema} from '../../services/validators';
+import Toast from 'react-native-toast-message';
+import {AuthApi} from '../../services/api';
 
 const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = useCallback((data: any) => {
-    try {
-      console.log(data);
-    } catch (error) {}
-  }, []);
+  const handleSubmit = useCallback(
+    async (data: any) => {
+      try {
+        setIsLoading(true);
+        console.log(data);
+        if (!checked) {
+          Toast.show({
+            type: 'error',
+            text1: 'Bạn phải đồng ý với các điều khoản và điều kiện',
+            text2: 'Vui lòng đồng ý',
+          });
+        } else {
+          const res = await AuthApi.register({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+          });
+          Toast.show({
+            type: 'success',
+            text1: 'Tạo tài khoản thành công',
+          });
+          navigation.pop();
+        }
+      } catch (error) {
+        Toast.show({
+          type: 'error',
+          text1: 'Tạo tài khoản thất bại',
+          text2: 'Vui lòng thử lại',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [checked],
+  );
 
   const formik = useFormik({
     initialValues: {
       username: '',
-      name: '',
       password: '',
       email: '',
-      rePassword: '',
+      re_password: '',
     },
     onSubmit: handleSubmit,
-    // validationSchema: LoginSchema,
+    validationSchema: RegisterSchema,
   });
 
   return (
@@ -63,16 +96,16 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
         </View>
         <View>
           <TextInput
-            value={formik.values.name}
-            placeholder="Họ và tên"
+            value={formik.values.email}
+            placeholder="Email"
             placeholderTextColor={colors.SEMI_GRAY}
             style={styles.inputStyled}
-            onBlur={formik.handleBlur('name')}
-            onChangeText={text => formik.setFieldValue('name', text)}
+            onBlur={formik.handleBlur('email')}
+            onChangeText={text => formik.setFieldValue('email', text)}
           />
-          {formik.errors.name && (
+          {formik.errors.email && (
             <View style={styles.error_message}>
-              <Text style={{color: colors.RED}}>{formik.errors.name}</Text>
+              <Text style={{color: colors.RED}}>{formik.errors.email}</Text>
             </View>
           )}
         </View>
@@ -109,18 +142,18 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
         </View>
         <View>
           <TextInput
-            value={formik.values.rePassword}
+            value={formik.values.re_password}
             placeholder="Nhập lại mật khẩu"
             placeholderTextColor={colors.SEMI_GRAY}
             style={styles.inputStyled}
             secureTextEntry
-            onBlur={formik.handleBlur('rePassword')}
-            onChangeText={text => formik.setFieldValue('rePassword', text)}
+            onBlur={formik.handleBlur('re_password')}
+            onChangeText={text => formik.setFieldValue('re_password', text)}
           />
-          {formik.errors.rePassword && (
+          {formik.errors.re_password && (
             <View style={styles.error_message}>
               <Text style={{color: colors.RED}}>
-                {formik.errors.rePassword}
+                {formik.errors.re_password}
               </Text>
             </View>
           )}
@@ -151,6 +184,7 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
           onPress={() => {
             formik.handleSubmit();
           }}
+          isLoading={isLoading}
           text="Đăng ký"
           style={{marginTop: 12}}
         />

@@ -6,8 +6,10 @@ const email = Yup.string()
   .required('Vui lòng nhập Email')
   .email('Vui lòng nhập một email');
 
-const password = Yup.string()
-  .required('Vui lòng nhập mật khẩu')
-  .min(6, 'Mật khẩu có ít nhất 6 kí tự');
+const password = Yup.string().required('Vui lòng nhập mật khẩu');
 
-export {email, password, username};
+const re_password = Yup.string()
+  .required('Vui lòng nhập lại mật khẩu')
+  .oneOf([Yup.ref('password')], 'Mật khẩu không khớp');
+
+export {email, password, username, re_password};

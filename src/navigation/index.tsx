@@ -1,5 +1,5 @@
 import {StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {FC, useRef} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   NavigationContainer,
   NavigationContainerRef,
@@ -10,13 +10,31 @@ import {NavigationService} from '../services';
 import {HomeScreen, LoginScreen, RegisterScreen} from '../screens';
 import {colors} from '../constants';
 import DrawerNavigation from './DrawerNavigation';
+import {useSelector} from 'react-redux';
+import {authSelector} from '../redux/reducers';
+import {setHeaderConfigAxios} from '../services/api/axios';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const RootNavigator: FC = () => {
+  const {credential, loggedin} = useSelector(authSelector);
+  const [isLoading, setIsLoading] = useState(true);
+
   const navigationRef =
     useRef<NavigationContainerRef<RootStackParamList>>(null);
   NavigationService.initialize(navigationRef);
+
+  useEffect(() => {
+    // Set token for axios when access_token change
+    if (credential?.token) {
+      setHeaderConfigAxios(credential.token);
+    }
+    setIsLoading(false);
+  }, []);
+
+  if (isLoading) {
+    return <View style={{backgroundColor: colors.WHITE}} />;
+  }
 
   return (
     <NavigationContainer ref={navigationRef}>
@@ -26,7 +44,7 @@ const RootNavigator: FC = () => {
           animation: 'simple_push',
           headerShown: false,
         }}
-        initialRouteName="Login">
+        initialRouteName={loggedin ? 'Drawer' : 'Login'}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}

@@ -1,5 +1,5 @@
 export const sizes = {
-  ScreenPaddingHorizontal: 32,
+  ScreenPaddingHorizontal: 20,
   IconWidth: 24,
   IconHeight: 24,
 };

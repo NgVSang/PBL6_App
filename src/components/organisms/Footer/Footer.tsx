@@ -3,6 +3,7 @@ import React, {FC, useMemo} from 'react';
 import {FooterProps} from './Footer.types';
 import {styles} from './Footer.styled';
 import {colors, commons} from '../../../constants';
+import {Social} from '../../molecules';
 
 const Footer: FC<FooterProps> = ({theme = colors.BLACK}) => {
   const navigateButton = useMemo(() => {
@@ -21,23 +22,6 @@ const Footer: FC<FooterProps> = ({theme = colors.BLACK}) => {
       },
       {
         title: 'Contact Us',
-        onPress: () => {},
-      },
-    ];
-  }, []);
-
-  const socialButton = useMemo(() => {
-    return [
-      {
-        icon: require('../../../assets/icons/instagram_icon.png'),
-        onPress: () => {},
-      },
-      {
-        icon: require('../../../assets/icons/facebook_icon.png'),
-        onPress: () => {},
-      },
-      {
-        icon: require('../../../assets/icons/youtube_icon.png'),
         onPress: () => {},
       },
     ];
@@ -63,13 +47,7 @@ const Footer: FC<FooterProps> = ({theme = colors.BLACK}) => {
         </View>
       </View>
       <View style={styles.bottomBarWrapper}>
-        <View style={styles.socialWrapper}>
-          {socialButton.map((button, index) => (
-            <TouchableOpacity key={index} onPress={button.onPress}>
-              <Image source={button.icon} style={styles.socialIcon} />
-            </TouchableOpacity>
-          ))}
-        </View>
+        <Social />
         <View style={styles.copyrightWrapper}>
           <Text style={styles.copyrightText}>
             Copyright © 2023 HomeDecor. All rights reserved
