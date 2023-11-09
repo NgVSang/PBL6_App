@@ -16,7 +16,7 @@ const DrawerNavigation: FC = () => {
         header: props => <Header {...props} />,
       }}>
       <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Product" component={() => <View></View>} />
+      {/* <Drawer.Screen name="Product" component={() => <View></View>} /> */}
     </Drawer.Navigator>
   );
 };

@@ -3,7 +3,6 @@ import {
   ScrollView,
   StatusBar,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -13,7 +12,7 @@ import {colors} from '../../constants';
 import {LoginScreenProps} from './LoginScreen.types';
 import {useFormik} from 'formik';
 import {LoginSchema} from '../../services/validators';
-import {Button} from '../../components';
+import {Button, TextInput} from '../../components';
 import {AuthApi} from '../../services/api';
 import Toast from 'react-native-toast-message';
 import {useDispatch} from 'react-redux';
@@ -35,8 +34,6 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
         }),
       );
       setHeaderConfigAxios(res.data.token);
-      // const user = await AuthApi.getProfile();
-      // dispatch(setUser(user.data[0]));
       navigation.reset({
         index: 0,
         routes: [{name: 'Drawer'}],
@@ -58,6 +55,8 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
       password: '',
     },
     onSubmit: handleSubmit,
+    validateOnBlur: false,
+    validateOnChange: false,
     validationSchema: LoginSchema,
   });
 
@@ -87,37 +86,17 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
-          <TextInput
-            value={formik.values.username}
-            placeholder="Tài khoản"
-            placeholderTextColor={colors.SEMI_GRAY}
-            style={styles.inputStyled}
-            onBlur={formik.handleBlur('username')}
-            onChangeText={text => formik.setFieldValue('username', text)}
-          />
-          {formik.errors.username && (
-            <View style={styles.error_message}>
-              <Text style={{color: colors.RED}}>{formik.errors.username}</Text>
-            </View>
-          )}
-        </View>
-        <View>
-          <TextInput
-            value={formik.values.password}
-            placeholder="Mật khẩu"
-            placeholderTextColor={colors.SEMI_GRAY}
-            style={styles.inputStyled}
-            secureTextEntry
-            onBlur={formik.handleBlur('password')}
-            onChangeText={text => formik.setFieldValue('password', text)}
-          />
-          {formik.errors.password && (
-            <View style={styles.error_message}>
-              <Text style={{color: colors.RED}}>{formik.errors.password}</Text>
-            </View>
-          )}
-        </View>
+        <TextInput
+          placeholder="Tài khoản"
+          formik={formik}
+          fieldValue="username"
+        />
+        <TextInput
+          placeholder="Mật khẩu"
+          formik={formik}
+          fieldValue="password"
+          secureTextEntry
+        />
         <View style={styles.rowWrapper}>
           <TouchableOpacity
             style={styles.checkBoxWrapper}

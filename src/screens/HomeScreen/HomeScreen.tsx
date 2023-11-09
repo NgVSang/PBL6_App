@@ -10,82 +10,36 @@ import {
 import React, {FC, useMemo} from 'react';
 import {HomeScreenProps} from './HomeScreen.types';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {Footer} from '../../components';
-import {Carousel} from '../../components/molecules';
+import {Footer, Product} from '../../components';
+import {Carousel} from '../../components';
 import {styles} from './HomeScreen.styled';
 import {sizes} from '../../constants';
+import {carouselContents, categories, products} from './HomeScreen.constants';
 
-const HomeScreen: FC<HomeScreenProps> = () => {
-  const carouselContents = useMemo(() => {
-    return [
-      {
-        image: {
-          uri: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/banner-danh-muc-dong-ho-koi.jpg',
-        },
-      },
-      {
-        image: {
-          uri: 'https://cdn3.dhht.vn/wp-content/uploads/2023/11/khai-truong-dong-ho-ha-noi-chi-nhanh-2-mb.jpg',
-        },
-      },
-      {
-        image: {
-          uri: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/banner-trang-chu-dong-ho-hai-trieu-1.jpg',
-        },
-      },
-    ];
-  }, []);
-
-  const categories = useMemo(() => {
-    return [
-      {
-        icon: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/dong-ho-xa-cu.jpg',
-        title: 'Mặt xà cừ',
-      },
-      {
-        icon: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/dong-ho-phien-ban-gioi-han.jpg',
-        title: 'Phiên bản giới hạn',
-      },
-      {
-        icon: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/dong-ho-sieu-mong.jpg',
-        title: 'Mặt số siêu mỏng',
-      },
-      {
-        icon: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/dong-ho-dinh-kim-cuong.jpg',
-        title: 'Đính kim cương',
-      },
-      {
-        icon: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/dong-ho-vang-18k-1.jpg',
-        title: 'Vàng 18k',
-      },
-      {
-        icon: 'https://cdn3.dhht.vn/wp-content/uploads/2023/10/dong-ho-skeleton-1.jpg',
-        title: 'Đồng hồ cơ',
-      },
-    ];
-  }, []);
-
+const HomeScreen: FC<HomeScreenProps> = ({}) => {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <ScrollView>
         <View style={styles.container}>
-          <Carousel
+          {/* <Carousel
             contents={carouselContents}
             autoplay
             loop
             pageSize={
               Dimensions.get('window').width - sizes.ScreenPaddingHorizontal * 2
             }
-          />
+          /> */}
           <View style={styles.categoryWrapper}>
             {categories.map((categorie, index) => (
-              <TouchableOpacity style={styles.category} key={index}>
-                <Image
-                  source={{uri: categorie.icon}}
-                  style={styles.categoryIcon}
-                />
+              <View style={styles.category} key={index}>
+                <TouchableOpacity style={styles.categoryIconWrapper}>
+                  <Image
+                    source={{uri: categorie.icon}}
+                    style={styles.categoryIcon}
+                  />
+                </TouchableOpacity>
                 <Text style={styles.categoryTitle}>{categorie.title}</Text>
-              </TouchableOpacity>
+              </View>
             ))}
           </View>
           <View style={styles.bannerWrapper}>
@@ -105,7 +59,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
                 <Text style={styles.genderText}>NỮ</Text>
               </TouchableOpacity>
             </View>
-            <View style={{marginVertical: 20}}>
+            <View style={styles.photoWrapper}>
               <TouchableOpacity style={{width: '100%'}}>
                 <Image
                   source={require('../../assets/images/couple.webp')}
@@ -113,6 +67,45 @@ const HomeScreen: FC<HomeScreenProps> = () => {
                 />
                 <Text style={styles.genderText}>ĐỒNG HỒ ĐÔI</Text>
               </TouchableOpacity>
+            </View>
+            <View style={styles.photoWrapper}>
+              <TouchableOpacity style={{width: '100%'}}>
+                <Image
+                  source={require('../../assets/images/male_best_seller.webp')}
+                  style={styles.sellerPhoto}
+                />
+              </TouchableOpacity>
+              <Text style={styles.sellerText}>ĐỒNG HỒ NAM BÁN CHẠY</Text>
+            </View>
+            <View style={styles.photoWrapper}>
+              <TouchableOpacity style={{width: '100%'}}>
+                <Image
+                  source={require('../../assets/images/female_best_seller.webp')}
+                  style={styles.sellerPhoto}
+                />
+              </TouchableOpacity>
+              <Text style={styles.sellerText}>ĐỒNG HỒ NỮ BÁN CHẠY</Text>
+            </View>
+            <View style={styles.photoWrapper}>
+              <TouchableOpacity style={{width: '100%'}}>
+                <Image
+                  source={require('../../assets/images/new_banner.webp')}
+                  style={styles.sellerPhoto}
+                />
+              </TouchableOpacity>
+              <Text style={styles.sellerText}>CÁC MẪU ĐỒNG HỒ MỚI VỀ</Text>
+            </View>
+          </View>
+          <View style={{marginBottom: 30}}>
+            <Text style={styles.productTitle}>SẢN PHẨM</Text>
+            <View style={styles.productsWrapper}>
+              {products.map(product => (
+                <Product
+                  data={product}
+                  key={product.id}
+                  style={{width: '45%'}}
+                />
+              ))}
             </View>
           </View>
         </View>

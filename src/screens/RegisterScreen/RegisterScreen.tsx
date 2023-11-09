@@ -3,7 +3,6 @@ import {
   ScrollView,
   StatusBar,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -12,7 +11,7 @@ import {RegisterScreenProps} from './RegisterScreen.types';
 import {styles} from './RegisterScreen.styled';
 import {colors} from '../../constants';
 import {useFormik} from 'formik';
-import {Button} from '../../components';
+import {Button, TextInput} from '../../components';
 import {RegisterSchema} from '../../services/validators';
 import Toast from 'react-native-toast-message';
 import {AuthApi} from '../../services/api';
@@ -65,6 +64,8 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
       re_password: '',
     },
     onSubmit: handleSubmit,
+    validateOnBlur: false,
+    validateOnChange: false,
     validationSchema: RegisterSchema,
   });
 
@@ -94,70 +95,24 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
-          <TextInput
-            value={formik.values.email}
-            placeholder="Email"
-            placeholderTextColor={colors.SEMI_GRAY}
-            style={styles.inputStyled}
-            onBlur={formik.handleBlur('email')}
-            onChangeText={text => formik.setFieldValue('email', text)}
-          />
-          {formik.errors.email && (
-            <View style={styles.error_message}>
-              <Text style={{color: colors.RED}}>{formik.errors.email}</Text>
-            </View>
-          )}
-        </View>
-        <View>
-          <TextInput
-            value={formik.values.username}
-            placeholder="Tài khoản"
-            placeholderTextColor={colors.SEMI_GRAY}
-            style={styles.inputStyled}
-            onBlur={formik.handleBlur('username')}
-            onChangeText={text => formik.setFieldValue('username', text)}
-          />
-          {formik.errors.username && (
-            <View style={styles.error_message}>
-              <Text style={{color: colors.RED}}>{formik.errors.username}</Text>
-            </View>
-          )}
-        </View>
-        <View>
-          <TextInput
-            value={formik.values.password}
-            placeholder="Mật khẩu"
-            placeholderTextColor={colors.SEMI_GRAY}
-            style={styles.inputStyled}
-            secureTextEntry
-            onBlur={formik.handleBlur('password')}
-            onChangeText={text => formik.setFieldValue('password', text)}
-          />
-          {formik.errors.password && (
-            <View style={styles.error_message}>
-              <Text style={{color: colors.RED}}>{formik.errors.password}</Text>
-            </View>
-          )}
-        </View>
-        <View>
-          <TextInput
-            value={formik.values.re_password}
-            placeholder="Nhập lại mật khẩu"
-            placeholderTextColor={colors.SEMI_GRAY}
-            style={styles.inputStyled}
-            secureTextEntry
-            onBlur={formik.handleBlur('re_password')}
-            onChangeText={text => formik.setFieldValue('re_password', text)}
-          />
-          {formik.errors.re_password && (
-            <View style={styles.error_message}>
-              <Text style={{color: colors.RED}}>
-                {formik.errors.re_password}
-              </Text>
-            </View>
-          )}
-        </View>
+        <TextInput placeholder="Email" formik={formik} fieldValue="email" />
+        <TextInput
+          placeholder="Tài khoản"
+          formik={formik}
+          fieldValue="username"
+        />
+        <TextInput
+          placeholder="Mật khẩu"
+          formik={formik}
+          fieldValue="password"
+          secureTextEntry
+        />
+        <TextInput
+          placeholder="Nhập lại mật khẩu"
+          formik={formik}
+          fieldValue="re_password"
+          secureTextEntry
+        />
         <View style={styles.rowWrapper}>
           <TouchableOpacity
             style={styles.checkBoxWrapper}

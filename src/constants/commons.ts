@@ -1,3 +1,3 @@
 export const commons = {
-  brand: 'Đồng hồ',
+  brand: 'WatchWorld',
 };

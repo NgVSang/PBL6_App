@@ -1,4 +1,11 @@
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  BackHandler,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   NavigationContainer,
@@ -30,6 +37,35 @@ const RootNavigator: FC = () => {
       setHeaderConfigAxios(credential.token);
     }
     setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    // Custom BackHandler listener
+    const handleBackPress = () => {
+      if (NavigationService.canGoBack()) {
+        NavigationService.pop();
+      } else {
+        Alert.alert('Thoát', 'Bạn muốn thoát khỏi ứng dụng?', [
+          {
+            text: 'Huỷ',
+            onPress: () => {},
+          },
+          {
+            text: 'Ok',
+            onPress: () => {
+              BackHandler.exitApp();
+            },
+          },
+        ]);
+      }
+      return true;
+    };
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+
+    // Remove listener
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    };
   }, []);
 
   if (isLoading) {

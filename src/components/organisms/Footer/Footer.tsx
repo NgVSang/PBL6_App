@@ -31,7 +31,15 @@ const Footer: FC<FooterProps> = ({theme = colors.BLACK}) => {
     <View style={[styles.container, {backgroundColor: theme}]}>
       <View style={styles.topBarWrapper}>
         <View style={styles.contentWrapper}>
-          <Text style={styles.brand}>{commons.brand}</Text>
+          {/* <Text style={styles.brand}>{commons.brand}</Text>*/}
+          <Image
+            source={require('../../../assets/icons/logo_icon.png')}
+            style={{
+              width: 150,
+              height: 150,
+              resizeMode: 'contain',
+            }}
+          />
           <View style={styles.rectangle} />
           <Text style={styles.decoration}>Gift & Decoration Store</Text>
         </View>
