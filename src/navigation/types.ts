@@ -1,11 +1,17 @@
+import {NavigatorScreenParams} from '@react-navigation/native';
+import {IProduct} from '../types';
+
 export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
   Register: undefined;
-  Drawer: any;
+  Drawer: NavigatorScreenParams<DrawerParamList> | undefined;
 };
 
 export type DrawerParamList = {
   Home: undefined;
   Product: undefined;
+  ProductDetail: {
+    data: IProduct;
+  };
 };

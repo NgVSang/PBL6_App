@@ -72,10 +72,12 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
   return (
     <ScrollView style={styles.screen}>
       <StatusBar backgroundColor={colors.BLACK} />
-      <Image
-        source={require('../../assets/images/login_banner.jpg')}
-        style={styles.banner}
-      />
+      <View style={styles.bannerWrapper}>
+        <Image
+          source={require('../../assets/icons/logo_square.png')}
+          style={styles.banner}
+        />
+      </View>
       <View style={styles.container}>
         <View style={styles.titleWrapper}>
           <Text style={styles.titleText}>Đăng ký</Text>

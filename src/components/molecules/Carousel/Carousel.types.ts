@@ -5,5 +5,6 @@ export interface CarouselProps extends RnCarouselProps {
     image: any;
     onPress?: () => void;
     width?: number;
+    height?: number;
   }[];
 }

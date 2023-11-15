@@ -2,7 +2,7 @@ import instance from './axios';
 
 const ENDPOINTS = {
   LOGIN: '/auth/login',
-  PROFILE: '/user',
+  PROFILE: '/user/me',
   REGISTER: '/auth/register',
 };
 

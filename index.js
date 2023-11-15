@@ -2,7 +2,7 @@
  * @format
  */
 
-import {AppRegistry, Text, TextInput} from 'react-native';
+import {AppRegistry, Text, TextInput, LogBox, YellowBox} from 'react-native';
 import App from './src/App';
 import {name as appName} from './app.json';
 

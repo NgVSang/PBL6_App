@@ -19,7 +19,7 @@ const Carousel: FC<CarouselProps> = ({contents, ...props}) => {
                   : props.pageSize
                   ? props.pageSize
                   : Dimensions.get('window').width,
-                height: 200,
+                height: content.height || 200,
               }}
             />
           </TouchableWithoutFeedback>

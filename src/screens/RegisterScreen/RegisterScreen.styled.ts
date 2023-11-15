@@ -5,10 +5,17 @@ export const styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
-  banner: {
+  bannerWrapper: {
     width: '100%',
+    height: 200,
+    backgroundColor: colors.BLACK,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  banner: {
+    width: '80%',
     height: 150,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   container: {
     paddingHorizontal: 25,

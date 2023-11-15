@@ -32,7 +32,8 @@ const StarRating: FC<StarRatingProps> = ({
         key={value}
         activeOpacity={1}
         onPress={onClickStarHandler.bind(null, value)}
-        testID="star-button">
+        testID="star-button"
+        style={{padding: 5}}>
         <Image
           source={require('../../../assets/icons/star_icon.png')}
           style={{
