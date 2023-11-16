@@ -14,4 +14,8 @@ export type DrawerParamList = {
   ProductDetail: {
     data: IProduct;
   };
+  Cart: undefined;
+  ProductCategory: {
+    id: string;
+  };
 };

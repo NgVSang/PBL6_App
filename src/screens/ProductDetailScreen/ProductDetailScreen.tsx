@@ -1,4 +1,5 @@
 import {
+  Alert,
   Dimensions,
   Image,
   ScrollView,
@@ -21,16 +22,21 @@ import {
 import {PageIndicatorConfig} from 'react-native-banner-carousel/out/Carousel';
 import {colors, sizes} from '../../constants';
 import {ProductApi} from '../../services/api';
-import {IReview} from '../../types';
+import {IProduct, IReview} from '../../types';
 import {convertPrice} from '../../utils/string';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart, cartSelector} from '../../redux/reducers';
 
 const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
   navigation,
   route,
 }) => {
   const {data} = route.params;
+  const {items} = useSelector(cartSelector);
+  const dispatch = useDispatch();
+
   const [reviews, setReviews] = useState<IReview[]>([]);
-  const [rating, setRating] = useState(data.rating);
+  const [rating, setRating] = useState(0);
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
   const [count, setCount] = useState(1);
@@ -50,7 +56,6 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
     try {
       const res = await ProductApi.getReviewProduct(data._id);
       setReviews(res.data.reviews);
-      if (res.data.average_rating) setRating(res.data.average_rating);
     } catch (error) {
       console.log(error);
     }
@@ -59,6 +64,34 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
   useEffect(() => {
     handleGetReview();
   }, []);
+
+  const handleAddToCart = useCallback(() => {
+    if (color !== '' && size !== '') {
+      const check = items.filter(item => item._id === data._id);
+      if (check.length === 0) {
+        //
+        let newSizeArr = data.size.filter(a => a !== size);
+        newSizeArr = [size, ...newSizeArr];
+        let newColorArr = data.color.filter(a => a !== color);
+        newColorArr = [color, ...newColorArr];
+        const product: IProduct = {
+          ...data,
+          size: newSizeArr,
+          color: newColorArr,
+          count: count,
+        };
+        dispatch(addToCart(product));
+        navigation.navigate('Cart');
+      } else {
+        Alert.alert(
+          'Thông báo',
+          'Bạn đã thêm sản phẩm này vào giỏ rồi, hãy vào giỏ hàng và đặt hàng đi nào!',
+        );
+      }
+    } else {
+      Alert.alert('Thiếu thông tin', 'Vui lòng chọn đầy đủ thông tin');
+    }
+  }, [data, color, size, count, dispatch]);
 
   return (
     <View style={{flex: 1}}>
@@ -80,7 +113,7 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
         <View style={styles.container}>
           <View style={styles.contentWrapper}>
             <View style={styles.ratingWrapper}>
-              {rating && <StarRating rating={rating} />}
+              {data.rating && <StarRating rating={data.rating} />}
               <Text style={styles.reviewText}>{reviews.length} đánh giá</Text>
             </View>
             <Text style={styles.titleText}>{data.nameProduct}</Text>
@@ -187,14 +220,14 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
               handleChangeValue={setCount}
               maximum={data.quantity}
             />
-            <Button text="Thêm vào giỏ hàng" />
+            <Button text="Thêm vào giỏ hàng" onPress={handleAddToCart} />
           </View>
         </View>
         <View style={styles.container}>
           <View style={styles.reviewWrapper}>
             <Text style={styles.evaluateTitle}>Đánh giá</Text>
             <View style={styles.ratingWrapper}>
-              {rating && <StarRating rating={rating} />}
+              {data.rating && <StarRating rating={data.rating} />}
               <Text style={styles.reviewText}>{reviews.length} đánh giá</Text>
             </View>
             <View
@@ -210,13 +243,11 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
                   style={styles.searchInput}
                 />
                 <StarRating
-                  rating={2}
+                  rating={rating}
                   starSize={25}
                   disableStarColor={colors.GRAY}
                   starColor={colors.YELLOW}
-                  selectedStar={rate => {
-                    console.log(rate);
-                  }}
+                  selectedStar={setRating}
                 />
               </View>
               <Button text="Gửi" style={{width: '25%', paddingHorizontal: 5}} />

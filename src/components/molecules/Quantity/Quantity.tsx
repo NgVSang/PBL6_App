@@ -7,7 +7,7 @@ const Quantity: FC<QuantityProps> = ({
   style,
   count,
   maximum = 100,
-  minimum = 0,
+  minimum = 1,
   handleChangeValue,
 }) => {
   const decreaseValue = useCallback(() => {

@@ -1,7 +1,6 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {HomeScreen, ProductDetailScreen} from '../screens';
+import {CartScreen, HomeScreen, ProductDetailScreen} from '../screens';
 import {Header, Drawer as RnDrawer} from '../components';
 import {DrawerParamList} from './types';
 
@@ -17,10 +16,9 @@ const DrawerNavigation: FC = () => {
       }}>
       <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="ProductDetail" component={ProductDetailScreen} />
+      <Drawer.Screen name="Cart" component={CartScreen} />
     </Drawer.Navigator>
   );
 };
 
 export default DrawerNavigation;
-
-const styles = StyleSheet.create({});

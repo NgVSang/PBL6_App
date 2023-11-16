@@ -35,10 +35,24 @@ const Drawer: FC<DrawerContentComponentProps> = ({navigation, state}) => {
     } catch (error) {}
   }, [navigation]);
 
+  const buttons = useMemo(() => {
+    return [
+      {
+        name: 'Trang chủ',
+        onPress: () => {
+          navigation.navigate('Home');
+        },
+      },
+    ];
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <View style={styles.topWrapper}>
-        <Text style={styles.brand}>{commons.brand}</Text>
+        <Image
+          source={require('../../../assets/images/title_image.png')}
+          style={{width: 150, height: 25, resizeMode: 'contain'}}
+        />
         <View style={styles.searchWrapper}>
           <Image
             source={require('../../../assets/icons/search_icon.png')}
@@ -49,6 +63,17 @@ const Drawer: FC<DrawerContentComponentProps> = ({navigation, state}) => {
             placeholderTextColor={colors.GRAY}
             style={styles.searchInput}
           />
+        </View>
+        <View style={styles.navigateWrapper}>
+          {buttons.map(button => (
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.navigateButton}
+              key={button.name}
+              onPress={button.onPress}>
+              <Text style={styles.buttonText}>{button.name}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
       <View style={styles.bottomWrapper}>

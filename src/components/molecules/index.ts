@@ -4,3 +4,5 @@ export * from './Product';
 export * from './StarRating';
 export * from './Quantity';
 export * from './Review';
+export * from './StepBar';
+export * from './CartItem';

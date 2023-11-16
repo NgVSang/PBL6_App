@@ -17,6 +17,7 @@ import {sizes} from '../../constants';
 import {carouselContents, categories} from './HomeScreen.constants';
 import {IProduct} from '../../types';
 import {ProductApi} from '../../services/api';
+import {NavigationService} from '../../services';
 
 const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -123,12 +124,15 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
                   key={product._id}
                   style={{width: '45%'}}
                   handlePress={product => {
-                    navigation.push('Drawer', {
+                    NavigationService.push<'Drawer'>('Drawer', {
                       screen: 'ProductDetail',
                       params: {
                         data: product,
                       },
                     });
+                    // navigation.navigate('ProductDetail', {
+                    //   data: product,
+                    // });
                   }}
                 />
               ))}

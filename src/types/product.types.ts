@@ -15,6 +15,7 @@ export interface IProduct {
   deleted?: boolean;
   createdAt: string;
   updatedAt: string;
+  count?: number;
 }
 
 export interface ISupplier {

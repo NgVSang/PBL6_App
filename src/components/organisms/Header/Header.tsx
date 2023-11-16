@@ -3,8 +3,12 @@ import React, {FC, useCallback} from 'react';
 import {HeaderProps} from './Header.types';
 import {styles} from './Header.styled';
 import {commons} from '../../../constants';
+import {useSelector} from 'react-redux';
+import {cartSelector} from '../../../redux/reducers';
 
 const Header: FC<HeaderProps> = ({navigation}) => {
+  const {items} = useSelector(cartSelector);
+
   const handlePressMenu = useCallback(() => {
     navigation.openDrawer();
   }, [navigation]);
@@ -25,14 +29,17 @@ const Header: FC<HeaderProps> = ({navigation}) => {
         />
       </View>
       <View style={styles.cartWrapper}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Cart');
+          }}>
           <Image
             source={require('../../../assets/icons/cart_icon.png')}
             style={styles.cartIcon}
           />
         </TouchableOpacity>
         <View style={styles.bagdeWrapper}>
-          <Text style={styles.bagdeText}>2</Text>
+          <Text style={styles.bagdeText}>{items.length}</Text>
         </View>
       </View>
     </View>

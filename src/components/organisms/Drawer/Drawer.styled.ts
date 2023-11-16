@@ -37,5 +37,20 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 24,
   },
+  navigateWrapper: {
+    flexDirection: 'column',
+    gap: 10,
+  },
+  navigateButton: {
+    paddingBottom: 10,
+    borderBottomColor: colors.BLACK,
+    borderBottomWidth: 0.5,
+  },
+  buttonText: {
+    color: colors.BLACK,
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 24,
+  },
   bottomWrapper: {},
 });
