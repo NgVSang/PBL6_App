@@ -1,7 +1,9 @@
+import {ICategory} from './categories.types';
+
 export interface IProduct {
   _id: string;
-  IDSupplier: ISupplier;
-  IDCategory: ICategory[];
+  IDSupplier?: ISupplier;
+  IDCategory?: ICategory[];
   type: string;
   pictureLinks: string[];
   nameProduct: string;
@@ -25,15 +27,16 @@ export interface ISupplier {
   address: string;
 }
 
-export interface ICategory {
-  _id: string;
-  CategoryName: string;
-}
-
 export interface IReview {
   IDcustomer: string;
   rating: number;
   comment?: string;
   createdAt: string;
   updatedAt?: string;
+}
+
+export interface IVoucher {
+  _id: string;
+  name: string;
+  discont: string;
 }

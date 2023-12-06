@@ -6,3 +6,4 @@ export * from './Quantity';
 export * from './Review';
 export * from './StepBar';
 export * from './CartItem';
+export * from './Voucher';

@@ -12,7 +12,7 @@ const StarRating: FC<StarRatingProps> = ({
   style,
   selectedStar,
 }) => {
-  const [star, setStar] = useState(rating);
+  const [star, setStar] = useState<number>(rating);
 
   const onClickStarHandler = useCallback(
     (value: number) => {

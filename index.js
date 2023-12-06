@@ -6,6 +6,8 @@ import {AppRegistry, Text, TextInput, LogBox, YellowBox} from 'react-native';
 import App from './src/App';
 import {name as appName} from './app.json';
 
+LogBox.ignoreAllLogs(true);
+
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 

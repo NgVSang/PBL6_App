@@ -1,11 +1,5 @@
-import {
-  Alert,
-  BackHandler,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {Alert, BackHandler, StatusBar, View} from 'react-native';
 import React, {FC, useEffect, useRef, useState} from 'react';
 import {
   NavigationContainer,
@@ -107,5 +101,3 @@ const RootNavigator: FC = () => {
 };
 
 export default RootNavigator;
-
-const styles = StyleSheet.create({});

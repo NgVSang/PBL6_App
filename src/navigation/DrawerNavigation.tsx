@@ -1,6 +1,12 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, {FC} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {CartScreen, HomeScreen, ProductDetailScreen} from '../screens';
+import {
+  CartScreen,
+  HomeScreen,
+  ProductDetailScreen,
+  ProductsCategoryScreen,
+} from '../screens';
 import {Header, Drawer as RnDrawer} from '../components';
 import {DrawerParamList} from './types';
 
@@ -17,6 +23,10 @@ const DrawerNavigation: FC = () => {
       <Drawer.Screen name="Home" component={HomeScreen} />
       <Drawer.Screen name="ProductDetail" component={ProductDetailScreen} />
       <Drawer.Screen name="Cart" component={CartScreen} />
+      <Drawer.Screen
+        name="ProductCategory"
+        component={ProductsCategoryScreen}
+      />
     </Drawer.Navigator>
   );
 };

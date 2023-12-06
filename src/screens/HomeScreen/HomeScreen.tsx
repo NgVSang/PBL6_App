@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Dimensions,
   Image,
   ScrollView,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {HomeScreenProps} from './HomeScreen.types';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Footer, Product} from '../../components';
@@ -33,6 +33,7 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
 
   useEffect(() => {
     handelGetListProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -63,14 +64,18 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
           </View>
           <View style={styles.bannerWrapper}>
             <View style={styles.genderWrapper}>
-              <TouchableOpacity style={styles.genderConainter}>
+              <TouchableOpacity
+                style={styles.genderConainter}
+                activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/male.webp')}
                   style={styles.genderPhoto}
                 />
                 <Text style={styles.genderText}>NAM</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.genderConainter}>
+              <TouchableOpacity
+                style={styles.genderConainter}
+                activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/female.webp')}
                   style={styles.genderPhoto}
@@ -79,7 +84,7 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.photoWrapper}>
-              <TouchableOpacity style={{width: '100%'}}>
+              <TouchableOpacity style={{width: '100%'}} activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/couple.webp')}
                   style={styles.genderPhoto}
@@ -88,7 +93,7 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
               </TouchableOpacity>
             </View>
             <View style={styles.photoWrapper}>
-              <TouchableOpacity style={{width: '100%'}}>
+              <TouchableOpacity style={{width: '100%'}} activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/male_best_seller.webp')}
                   style={styles.sellerPhoto}
@@ -97,7 +102,7 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
               <Text style={styles.sellerText}>ĐỒNG HỒ NAM BÁN CHẠY</Text>
             </View>
             <View style={styles.photoWrapper}>
-              <TouchableOpacity style={{width: '100%'}}>
+              <TouchableOpacity style={{width: '100%'}} activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/female_best_seller.webp')}
                   style={styles.sellerPhoto}
@@ -106,7 +111,7 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
               <Text style={styles.sellerText}>ĐỒNG HỒ NỮ BÁN CHẠY</Text>
             </View>
             <View style={styles.photoWrapper}>
-              <TouchableOpacity style={{width: '100%'}}>
+              <TouchableOpacity style={{width: '100%'}} activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/new_banner.webp')}
                   style={styles.sellerPhoto}

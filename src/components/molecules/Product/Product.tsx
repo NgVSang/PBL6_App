@@ -21,9 +21,12 @@ const Product: FC<ProductProps> = ({
   return (
     <TouchableOpacity
       style={[styles.container, style]}
-      onPress={handlePressProduct}>
+      onPress={handlePressProduct}
+      activeOpacity={0.6}>
       <Image source={{uri: data.pictureLinks[0]}} style={styles.photo} />
-      {data.rating && <StarRating rating={data.rating} style={styles.rating} />}
+      {data.rating !== null && (
+        <StarRating rating={data.rating} style={styles.rating} />
+      )}
       <Text numberOfLines={3} style={styles.name}>
         {data.nameProduct}
       </Text>

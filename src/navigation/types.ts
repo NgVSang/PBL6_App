@@ -1,5 +1,5 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
-import {IProduct} from '../types';
+import {ICategory, IProduct} from '../types';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -16,6 +16,6 @@ export type DrawerParamList = {
   };
   Cart: undefined;
   ProductCategory: {
-    id: string;
+    data: ICategory;
   };
 };

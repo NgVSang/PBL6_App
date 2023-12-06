@@ -1,12 +1,22 @@
-import {ScrollView, Text, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {FC, useCallback, useMemo} from 'react';
 import {CartScreenProps} from './CartScreen.types';
 import {styles} from './CartScreen.styled';
-import {CartItem, Footer, StepBar} from '../../components';
+import {Button, CartItem, Footer, StepBar, Voucher} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {cartSelector, deleteCartItem, updateCart} from '../../redux/reducers';
 import {IProduct} from '../../types';
+import {colors} from '../../constants';
+import {convertPrice} from '../../utils/string';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {items} = useSelector(cartSelector);
@@ -15,7 +25,7 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
     (data: IProduct) => {
       dispatch(deleteCartItem(data._id));
     },
-    [items, dispatch],
+    [dispatch],
   );
 
   const handleChange = useCallback(
@@ -29,7 +39,7 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
       });
       dispatch(updateCart(newCartItems));
     },
-    [items],
+    [dispatch, items],
   );
 
   const renderProducts = useMemo(() => {
@@ -49,7 +59,20 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
         />
       ));
     }
-  }, [items, handleRemove]);
+  }, [items, handleRemove, handleChange]);
+
+  const subTotal = useMemo(() => {
+    let total = 0;
+    for (let i = 0; i < items.length; i++) {
+      total += items[i].price;
+    }
+    return total;
+  }, [items]);
+
+  const total = useMemo(() => {
+    let finalTotal = subTotal;
+    return finalTotal;
+  }, [subTotal]);
 
   return (
     <ScrollView style={styles.screen}>
@@ -67,9 +90,64 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
           <View style={styles.productWrapper}>{renderProducts}</View>
         </View>
       </View>
-      <View style={styles.container}>
-        <View style={styles.couponWrapper}></View>
-      </View>
+      {items.length > 0 && (
+        <View style={styles.container}>
+          <View style={styles.couponWrapper}>
+            <View>
+              <Text style={styles.couponTitle}>Bạn có mã giảm giá không?</Text>
+              <Text style={styles.couponDescription}>
+                Thêm mã của bạn để được giảm giá ngay lập tức
+              </Text>
+            </View>
+            <View style={styles.couponCodeWrapper}>
+              <Image
+                source={require('../../assets/icons/ticket_percent.png')}
+                style={styles.couponCodeIcon}
+              />
+              <TextInput
+                style={styles.couponCodeText}
+                placeholder="Mã giảm giá"
+                placeholderTextColor={colors.GRAY}
+              />
+              <TouchableOpacity activeOpacity={0.6}>
+                <Text style={styles.couponCodeBtn}>Áp dụng</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.cartSummaryWrapper}>
+              <Text style={styles.cartSummaryTitle}>WatchWorld Voucer</Text>
+              <Voucher
+                data={[
+                  {
+                    _id: 'asdfasdf',
+                    name: 'Giảm đậm sâu',
+                    discont: '30%',
+                  },
+                ]}
+              />
+              <View>
+                <View
+                  style={[
+                    styles.priceWrapper,
+                    // eslint-disable-next-line react-native/no-inline-styles
+                    {borderBottomColor: colors.BLACK, borderBottomWidth: 1},
+                  ]}>
+                  <Text style={styles.cartSummaryTitle}>Sub Total</Text>
+                  <Text style={styles.cartSummaryTitle}>
+                    {convertPrice(subTotal)}đ
+                  </Text>
+                </View>
+                <View style={styles.priceWrapper}>
+                  <Text style={styles.cartSummaryTitle}>Total</Text>
+                  <Text style={styles.cartSummaryTitle}>
+                    {convertPrice(total)}đ
+                  </Text>
+                </View>
+              </View>
+              <Button text="Thanh toán" />
+            </View>
+          </View>
+        </View>
+      )}
       <Footer />
     </ScrollView>
   );

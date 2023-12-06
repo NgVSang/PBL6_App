@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   productsWrapper: {
-    paddingVertical: 30,
+    paddingVertical: 20,
   },
   productsTitle: {
     color: colors.BLACK,
@@ -51,5 +51,69 @@ export const styles = StyleSheet.create({
   },
   couponWrapper: {
     marginBottom: 80,
+    flexDirection: 'column',
+    gap: 20,
+  },
+  couponTitle: {
+    color: colors.BLACK,
+    fontSize: 16,
+    fontWeight: '600',
+    lineHeight: 26,
+  },
+  couponDescription: {
+    color: colors.GRAY,
+    fontSize: 14,
+    marginTop: 5,
+    fontWeight: '400',
+    lineHeight: 22,
+  },
+  couponCodeWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderColor: colors.GRAY,
+    borderRadius: 2,
+    borderWidth: 1,
+    gap: 8,
+  },
+  couponCodeIcon: {
+    width: 24,
+    height: 24,
+  },
+  couponCodeText: {
+    flex: 1,
+    color: colors.BLACK,
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 28,
+    letterSpacing: -0.4,
+    padding: 0,
+  },
+  couponCodeBtn: {
+    color: colors.BLACK,
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 28,
+    letterSpacing: -0.4,
+  },
+  cartSummaryWrapper: {
+    padding: 16,
+    borderColor: colors.GRAY,
+    borderRadius: 2,
+    borderWidth: 1,
+    gap: 16,
+  },
+  cartSummaryTitle: {
+    color: colors.BLACK,
+    fontSize: 16,
+    fontWeight: '600',
+    lineHeight: 26,
+  },
+  priceWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
   },
 });

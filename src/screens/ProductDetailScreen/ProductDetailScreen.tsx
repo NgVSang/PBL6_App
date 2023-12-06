@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Alert,
   Dimensions,
@@ -19,10 +20,9 @@ import {
   StarRating,
   TextInput,
 } from '../../components';
-import {PageIndicatorConfig} from 'react-native-banner-carousel/out/Carousel';
 import {colors, sizes} from '../../constants';
 import {ProductApi} from '../../services/api';
-import {IProduct, IReview} from '../../types';
+import {ICategory, IProduct, IReview} from '../../types';
 import {convertPrice} from '../../utils/string';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart, cartSelector} from '../../redux/reducers';
@@ -63,6 +63,7 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
 
   useEffect(() => {
     handleGetReview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAddToCart = useCallback(() => {
@@ -91,7 +92,16 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
     } else {
       Alert.alert('Thiếu thông tin', 'Vui lòng chọn đầy đủ thông tin');
     }
-  }, [data, color, size, count, dispatch]);
+  }, [color, size, items, data, count, dispatch, navigation]);
+
+  const handleSearchCategories = useCallback(
+    (category: ICategory) => {
+      navigation.navigate('ProductCategory', {
+        data: category,
+      });
+    },
+    [navigation],
+  );
 
   return (
     <View style={{flex: 1}}>
@@ -113,7 +123,9 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
         <View style={styles.container}>
           <View style={styles.contentWrapper}>
             <View style={styles.ratingWrapper}>
-              {data.rating && <StarRating rating={data.rating} />}
+              {data.rating !== null && data.rating !== 0 && (
+                <StarRating rating={data.rating} />
+              )}
               <Text style={styles.reviewText}>{reviews.length} đánh giá</Text>
             </View>
             <Text style={styles.titleText}>{data.nameProduct}</Text>
@@ -133,16 +145,21 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
             <View style={styles.inforRowWrapper}>
               <Text style={styles.inforContentTitle}>Nhà cung cấp:</Text>
               <Text style={styles.inforContentText}>
-                {data.IDSupplier.companyName}
+                {data.IDSupplier?.companyName}
               </Text>
             </View>
             <View style={styles.inforRowWrapper}>
               <Text style={styles.inforContentTitle}>Phân loại:</Text>
-              <Text style={styles.inforContentText}>
-                {data.IDCategory.map(category => {
-                  return category.CategoryName;
-                }).join(', ')}
-              </Text>
+              {data.IDCategory?.map(category => (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleSearchCategories(category);
+                  }}>
+                  <Text style={styles.inforContentText}>
+                    {category.CategoryName}
+                  </Text>
+                </TouchableOpacity>
+              ))}
             </View>
             <View style={styles.inforRowWrapper}>
               <Text style={styles.inforContentTitle}>Loại đồng hồ:</Text>
@@ -227,7 +244,9 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
           <View style={styles.reviewWrapper}>
             <Text style={styles.evaluateTitle}>Đánh giá</Text>
             <View style={styles.ratingWrapper}>
-              {data.rating && <StarRating rating={data.rating} />}
+              {data.rating !== null && data.rating !== 0 && (
+                <StarRating rating={data.rating} />
+              )}
               <Text style={styles.reviewText}>{reviews.length} đánh giá</Text>
             </View>
             <View
