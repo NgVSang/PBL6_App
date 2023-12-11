@@ -37,6 +37,14 @@ export interface IReview {
 
 export interface IVoucher {
   _id: string;
+  IDSupplier?: string;
+  IDproduct?: string[];
   name: string;
-  discont: string;
+  typeDiscount: string;
+  discount: number;
+  startDate: string;
+  endDate: string;
+  deleted: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

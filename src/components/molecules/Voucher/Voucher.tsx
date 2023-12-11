@@ -43,9 +43,9 @@ const Voucher: FC<VoucherProps> = ({data, onSelect, style, voucherStyle}) => {
                 />
               )}
             </View>
-            <Text style={styles.voucherText}>{voucher.name}</Text>
+            <Text style={styles.voucherText}>{voucher.typeDiscount}</Text>
           </View>
-          <Text style={styles.voucherText}>{voucher.discont}</Text>
+          <Text style={styles.voucherText}>{voucher.discount}</Text>
         </TouchableOpacity>
       ))}
     </View>

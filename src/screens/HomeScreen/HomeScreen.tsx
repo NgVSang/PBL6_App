@@ -2,6 +2,7 @@
 import {
   Dimensions,
   Image,
+  RefreshControl,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -21,13 +22,18 @@ import {NavigationService} from '../../services';
 
 const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handelGetListProduct = useCallback(async () => {
     try {
+      setIsLoading(true);
+      setProducts([]);
       const res = await ProductApi.getListProduct();
       setProducts(res.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -38,7 +44,13 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={handelGetListProduct}
+          />
+        }>
         <View style={styles.container}>
           <Carousel
             contents={carouselContents}
