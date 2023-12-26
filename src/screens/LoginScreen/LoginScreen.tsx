@@ -33,6 +33,7 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
           token: res.data.token,
         }),
       );
+      dispatch(setUser(res.data.user));
       setHeaderConfigAxios(res.data.token);
       navigation.reset({
         index: 0,

@@ -25,8 +25,24 @@ const register = (data: {
   return instance.post(ENDPOINTS.REGISTER, data);
 };
 
+const updateProfile = (
+  id: string,
+  data: {
+    firstName?: string;
+    lastName?: string;
+    gender?: boolean;
+    phone?: string;
+    dayOfBirth?: string;
+    Address?: string;
+    profilePicture?: string;
+  },
+) => {
+  return instance.put(`/user/${id}`, data);
+};
+
 export const AuthApi = {
   login,
   getProfile,
   register,
+  updateProfile,
 };

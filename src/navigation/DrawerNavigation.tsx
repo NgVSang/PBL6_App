@@ -6,6 +6,7 @@ import {
   HomeScreen,
   ProductDetailScreen,
   ProductsCategoryScreen,
+  ProfileScreen,
 } from '../screens';
 import {Header, Drawer as RnDrawer} from '../components';
 import {DrawerParamList} from './types';
@@ -27,6 +28,7 @@ const DrawerNavigation: FC = () => {
         name="ProductCategory"
         component={ProductsCategoryScreen}
       />
+      <Drawer.Screen name="Profile" component={ProfileScreen} />
     </Drawer.Navigator>
   );
 };

@@ -7,3 +7,4 @@ export * from './Review';
 export * from './StepBar';
 export * from './CartItem';
 export * from './Voucher';
+export * from './Order';

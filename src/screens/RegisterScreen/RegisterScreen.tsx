@@ -15,8 +15,12 @@ import {Button, TextInput} from '../../components';
 import {RegisterSchema} from '../../services/validators';
 import Toast from 'react-native-toast-message';
 import {AuthApi} from '../../services/api';
+import {useDispatch} from 'react-redux';
+import {setCredential, setUser} from '../../redux/reducers';
+import {setHeaderConfigAxios} from '../../services/api/axios';
 
 const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,10 +36,20 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
             text2: 'Vui lòng đồng ý',
           });
         } else {
-          const res = await AuthApi.register({
+          await AuthApi.register({
             username: data.username,
             email: data.email,
             password: data.password,
+          });
+          const res = await AuthApi.login({
+            username: data.username,
+            password: data.password,
+          });
+          setHeaderConfigAxios(res.data.token);
+          await AuthApi.updateProfile(res.data.user._id, {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            phone: data.phone,
           });
           Toast.show({
             type: 'success',
@@ -49,6 +63,7 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
           text1: 'Tạo tài khoản thất bại',
           text2: 'Vui lòng thử lại',
         });
+        console.log(error);
       } finally {
         setIsLoading(false);
       }
@@ -58,8 +73,11 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
 
   const formik = useFormik({
     initialValues: {
+      firstName: '',
+      lastName: '',
       username: '',
       password: '',
+      phone: '',
       email: '',
       re_password: '',
     },
@@ -97,11 +115,19 @@ const RegisterScreen: FC<RegisterScreenProps> = ({navigation, route}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <TextInput placeholder="Email" formik={formik} fieldValue="email" />
+        <TextInput placeholder="Họ" formik={formik} fieldValue="firstName" />
+        <TextInput placeholder="Tên" formik={formik} fieldValue="lastName" />
         <TextInput
           placeholder="Tài khoản"
           formik={formik}
           fieldValue="username"
+        />
+        <TextInput placeholder="Email" formik={formik} fieldValue="email" />
+        <TextInput
+          placeholder="Số điện thoại"
+          formik={formik}
+          fieldValue="phone"
+          keyboardType="numeric"
         />
         <TextInput
           placeholder="Mật khẩu"

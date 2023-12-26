@@ -43,6 +43,12 @@ const Drawer: FC<DrawerContentComponentProps> = ({navigation, state}) => {
           navigation.navigate('Home');
         },
       },
+      {
+        name: 'Tài khoản',
+        onPress: () => {
+          navigation.navigate('Profile');
+        },
+      },
     ];
   }, [navigation]);
 

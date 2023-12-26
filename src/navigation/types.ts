@@ -18,4 +18,5 @@ export type DrawerParamList = {
   ProductCategory: {
     data: ICategory;
   };
+  Profile: undefined;
 };
