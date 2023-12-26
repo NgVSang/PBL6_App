@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {FC, useCallback, useMemo} from 'react';
+import React, {FC, useCallback, useMemo, useState} from 'react';
 import {CartScreenProps} from './CartScreen.types';
 import {styles} from './CartScreen.styled';
 import {Button, CartItem, Footer, StepBar, Voucher} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {cartSelector, deleteCartItem, updateCart} from '../../redux/reducers';
-import {IProduct} from '../../types';
+import {IProduct, IVoucher} from '../../types';
 import {colors} from '../../constants';
 import {convertPrice} from '../../utils/string';
 
@@ -20,6 +20,7 @@ import {convertPrice} from '../../utils/string';
 const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {items} = useSelector(cartSelector);
+  const [voucher, setVoucher] = useState<IVoucher>();
 
   const handleRemove = useCallback(
     (data: IProduct) => {
@@ -64,15 +65,22 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
   const subTotal = useMemo(() => {
     let total = 0;
     for (let i = 0; i < items.length; i++) {
-      total += items[i].price;
+      total += items[i].price * (items[i].count || 0);
     }
     return total;
   }, [items]);
 
   const total = useMemo(() => {
     let finalTotal = subTotal;
+    if (voucher?._id === '2') {
+      if (finalTotal * voucher.discount! < voucher.maxDiscound!) {
+        finalTotal -= finalTotal * voucher.discount!;
+      } else {
+        finalTotal -= voucher.maxDiscound!;
+      }
+    }
     return finalTotal;
-  }, [subTotal]);
+  }, [subTotal, voucher]);
 
   return (
     <ScrollView style={styles.screen}>
@@ -118,11 +126,17 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
               <Voucher
                 data={[
                   {
-                    _id: 'asdfasdf',
-                    name: 'Giảm đậm sâu',
-                    discont: '30%',
+                    _id: '1',
+                    typeDiscount: 'Miễn phí vận chuyển',
+                  },
+                  {
+                    _id: '2',
+                    typeDiscount: 'Giảm 10% đơn hàng (tối đa 50k)',
+                    discount: 0.1,
+                    maxDiscound: 50000,
                   },
                 ]}
+                onSelect={setVoucher}
               />
               <View>
                 <View

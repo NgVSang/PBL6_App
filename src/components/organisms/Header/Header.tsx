@@ -23,10 +23,16 @@ const Header: FC<HeaderProps> = ({navigation}) => {
           />
         </TouchableOpacity>
         {/* <Text style={styles.title}>{commons.brand}</Text> */}
-        <Image
-          source={require('../../../assets/images/title_image.png')}
-          style={{width: 150, height: 25, resizeMode: 'contain'}}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Home');
+          }}
+          activeOpacity={1}>
+          <Image
+            source={require('../../../assets/images/title_image.png')}
+            style={{width: 150, height: 25, resizeMode: 'contain'}}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.cartWrapper}>
         <TouchableOpacity

@@ -13,11 +13,12 @@ export const styles = StyleSheet.create({
   avatarWrapper: {
     backgroundColor: colors.GRAY,
     borderRadius: 72,
+    overflow: 'hidden',
   },
   avatar: {
     width: 72,
     height: 72,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   contentWrapper: {
     flexDirection: 'column',

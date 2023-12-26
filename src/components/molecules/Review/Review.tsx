@@ -10,12 +10,19 @@ const Review: FC<ReviewProps> = ({data}) => {
       <View style={styles.inforWrapper}>
         <View style={styles.avatarWrapper}>
           <Image
-            source={require('../../../assets/images/avatar.png')}
+            source={
+              data.IDcustomer.profilePicture
+                ? {uri: data.IDcustomer.profilePicture}
+                : require('../../../assets/images/avatar.png')
+            }
             style={styles.avatar}
           />
         </View>
         <View style={styles.contentWrapper}>
-          <Text style={styles.nameStyle}>{data.IDcustomer}</Text>
+          <Text
+            style={
+              styles.nameStyle
+            }>{`${data.IDcustomer.firstName} ${data.IDcustomer.lastName}`}</Text>
           <StarRating rating={data.rating} />
         </View>
       </View>

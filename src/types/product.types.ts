@@ -28,10 +28,31 @@ export interface ISupplier {
 }
 
 export interface IReview {
-  IDcustomer: string;
-  rating: number;
+  _id: string;
+  IDcustomer: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    profilePicture?: string;
+  };
+  rating?: number;
   comment?: string;
+  content: string;
   createdAt: string;
+  updatedAt?: string;
+}
+
+export interface IDiscount {
+  _id: string;
+  IDSupplier?: string;
+  IDproduct?: string[];
+  name?: string;
+  typeDiscount?: string;
+  discount?: number;
+  startDate?: string;
+  endDate?: string;
+  deleted?: boolean;
+  createdAt?: string;
   updatedAt?: string;
 }
 
@@ -39,12 +60,13 @@ export interface IVoucher {
   _id: string;
   IDSupplier?: string;
   IDproduct?: string[];
-  name: string;
-  typeDiscount: string;
-  discount: number;
-  startDate: string;
-  endDate: string;
-  deleted: boolean;
-  createdAt: string;
-  updatedAt: string;
+  name?: string;
+  typeDiscount?: string;
+  discount?: number;
+  startDate?: string;
+  maxDiscound?: number;
+  endDate?: string;
+  deleted?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }

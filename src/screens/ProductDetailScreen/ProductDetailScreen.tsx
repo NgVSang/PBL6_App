@@ -22,10 +22,11 @@ import {
 } from '../../components';
 import {colors, sizes} from '../../constants';
 import {ProductApi} from '../../services/api';
-import {ICategory, IProduct, IReview} from '../../types';
+import {ICategory, IDiscount, IProduct, IReview} from '../../types';
 import {convertPrice} from '../../utils/string';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart, cartSelector} from '../../redux/reducers';
+import Toast from 'react-native-toast-message';
 
 const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
   navigation,
@@ -35,8 +36,11 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
   const {items} = useSelector(cartSelector);
   const dispatch = useDispatch();
 
+  const [loadingReview, setLoadingReview] = useState(false);
   const [reviews, setReviews] = useState<IReview[]>([]);
+  const [discount, setDiscount] = useState<IDiscount>();
   const [rating, setRating] = useState(0);
+  const [reviewText, setReviewText] = useState('');
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
   const [count, setCount] = useState(1);
@@ -55,7 +59,50 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
   const handleGetReview = useCallback(async () => {
     try {
       const res = await ProductApi.getReviewProduct(data._id);
-      setReviews(res.data.reviews);
+      setReviews(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [data._id]);
+
+  const createReview = useCallback(async () => {
+    try {
+      setLoadingReview(true);
+      await ProductApi.addReviewProduct(data._id, {
+        rating: rating,
+        comment: reviewText,
+      });
+      const res = await ProductApi.getReviewProduct(data._id);
+      setReviews(res.data);
+      setReviewText('');
+      setRating(0);
+      Toast.show({
+        type: 'success',
+        text1: 'Đánh giá sản phẩm thành công',
+      });
+    } catch (error: any) {
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: 'Nêu ý kiến thất bại',
+        text2: error.error || 'Vui lòng thử lại',
+      });
+    } finally {
+      setLoadingReview(false);
+    }
+  }, [reviewText, rating, data._id]);
+
+  const handleGetDiscount = useCallback(async () => {
+    try {
+      const res = await ProductApi.getProductDiscount(data._id);
+      if (res.data?.length > 0) {
+        const currentDate = new Date();
+        const startDate = new Date(res.data[0].startDate || '');
+        const endDate = new Date(res.data[0].endDate || '');
+        if (currentDate >= startDate && currentDate <= endDate) {
+          setDiscount(res.data[0]);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -63,8 +110,11 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
 
   useEffect(() => {
     handleGetReview();
+    handleGetDiscount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(data.price * (1 - (discount?.discount || 0)));
 
   const handleAddToCart = useCallback(() => {
     if (color !== '' && size !== '') {
@@ -130,7 +180,28 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
             </View>
             <Text style={styles.titleText}>{data.nameProduct}</Text>
             <Text style={styles.descriptionText}>{data.description}</Text>
-            <Text style={styles.priceText}>{convertPrice(data.price)} đ</Text>
+            {discount ? (
+              <View style={{flexDirection: 'row'}}>
+                <Text
+                  style={[
+                    styles.priceText,
+                    {textDecorationLine: 'line-through'},
+                  ]}>
+                  {convertPrice(data.price)} đ
+                </Text>
+                <Text style={styles.priceText}> {`->`} </Text>
+                <Text style={styles.priceText}>
+                  {convertPrice(
+                    parseFloat(
+                      (data.price * (1 - (discount.discount || 0))).toFixed(2),
+                    ),
+                  )}{' '}
+                  đ
+                </Text>
+              </View>
+            ) : (
+              <Text style={styles.priceText}>{convertPrice(data.price)} đ</Text>
+            )}
           </View>
         </View>
         <View style={styles.container}>
@@ -154,7 +225,8 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
                 <TouchableOpacity
                   onPress={() => {
                     handleSearchCategories(category);
-                  }}>
+                  }}
+                  key={category._id}>
                   <Text style={styles.inforContentText}>
                     {category.CategoryName}
                   </Text>
@@ -260,6 +332,8 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
                   placeholder="Nêu cảm nhận của bạn"
                   placeholderTextColor={colors.GRAY}
                   style={styles.searchInput}
+                  value={reviewText}
+                  onChangeText={setReviewText}
                 />
                 <StarRating
                   rating={rating}
@@ -269,10 +343,16 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
                   selectedStar={setRating}
                 />
               </View>
-              <Button text="Gửi" style={{width: '25%', paddingHorizontal: 5}} />
+              <Button
+                text="Gửi"
+                style={{width: '25%', paddingHorizontal: 5}}
+                onPress={createReview}
+                isLoading={loadingReview}
+                disabled={loadingReview}
+              />
             </View>
             {reviews.map(a => (
-              <Review data={a} key={a.IDcustomer} />
+              <Review data={a} key={a._id} />
             ))}
           </View>
         </View>

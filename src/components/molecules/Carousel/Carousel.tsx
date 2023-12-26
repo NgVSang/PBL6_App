@@ -7,7 +7,7 @@ import {styles} from './Carousel.styled';
 const Carousel: FC<CarouselProps> = ({contents, ...props}) => {
   return (
     <View style={styles.container}>
-      {/* <RNCarousel {...props}>
+      <RNCarousel {...props}>
         {contents.map((content, index) => (
           <TouchableWithoutFeedback key={index} onPress={content.onPress}>
             <Image
@@ -24,7 +24,7 @@ const Carousel: FC<CarouselProps> = ({contents, ...props}) => {
             />
           </TouchableWithoutFeedback>
         ))}
-      </RNCarousel> */}
+      </RNCarousel>
     </View>
   );
 };
