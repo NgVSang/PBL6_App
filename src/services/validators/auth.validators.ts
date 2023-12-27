@@ -22,3 +22,10 @@ export const RegisterSchema = Yup.object().shape({
   password,
   re_password,
 });
+
+export const UpdateProfileSchema = Yup.object().shape({
+  firstName: string,
+  lastName: string,
+  phone: phone_number,
+  Address: string,
+});

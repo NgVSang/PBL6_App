@@ -16,6 +16,7 @@ import {Social} from '../../molecules';
 import {useDispatch} from 'react-redux';
 import {logout} from '../../../redux/reducers';
 import {setHeaderConfigAxios} from '../../../services/api/axios';
+import {NavigationService} from '../../../services';
 
 const Drawer: FC<DrawerContentComponentProps> = ({navigation, state}) => {
   const dispatch = useDispatch();
@@ -40,13 +41,19 @@ const Drawer: FC<DrawerContentComponentProps> = ({navigation, state}) => {
       {
         name: 'Trang chủ',
         onPress: () => {
-          navigation.navigate('Home');
+          // navigation.navigate('Home');
+          NavigationService.push('Drawer', {
+            screen: 'Home',
+          });
         },
       },
       {
         name: 'Tài khoản',
         onPress: () => {
-          navigation.navigate('Profile');
+          // navigation.navigate('Profile');
+          NavigationService.push('Drawer', {
+            screen: 'Profile',
+          });
         },
       },
     ];

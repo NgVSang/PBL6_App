@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Linking, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC, useMemo} from 'react';
 import {colors, sizes} from '../../../constants';
 import {SocialProps} from './Social.types';
@@ -8,15 +8,27 @@ const Social: FC<SocialProps> = ({iconTheme = colors.WHITE}) => {
     return [
       {
         icon: require('../../../assets/icons/instagram_icon.png'),
-        onPress: () => {},
+        onPress: () => {
+          Linking.openURL(
+            'https://www.instagram.com/sunnywatch2002/?utm_source=ig_web_button_share_sheet&igshid=YzAwZjE1ZTI0Zg==',
+          );
+        },
       },
       {
         icon: require('../../../assets/icons/facebook_icon.png'),
-        onPress: () => {},
+        onPress: () => {
+          Linking.openURL(
+            'https://www.facebook.com/profile.php?id=61553800418323&locale=vi_VN',
+          );
+        },
       },
       {
-        icon: require('../../../assets/icons/youtube_icon.png'),
-        onPress: () => {},
+        icon: require('../../../assets/icons/tik_tok_icon.png'),
+        onPress: () => {
+          Linking.openURL(
+            'https://www.tiktok.com/@sunnywatch2002?_t=8hsVBKYfGD9&_r=1',
+          );
+        },
       },
     ];
   }, []);

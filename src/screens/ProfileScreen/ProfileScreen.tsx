@@ -15,6 +15,7 @@ import {authSelector} from '../../redux/reducers';
 import {IOrder} from '../../types';
 import {OrderApi} from '../../services/api';
 import {Footer, Order} from '../../components';
+import {NavigationService} from '../../services';
 
 const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
   const {user} = useSelector(authSelector);
@@ -54,6 +55,11 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
           <View style={styles.inforWrapper}>
             <TouchableOpacity
               activeOpacity={1}
+              onPress={() => {
+                NavigationService.push('Drawer', {
+                  screen: 'UpdateProfile',
+                });
+              }}
               style={{
                 flexDirection: 'column',
                 alignItems: 'center',

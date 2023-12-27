@@ -14,6 +14,13 @@ export const styles = StyleSheet.create({
     lineHeight: 22,
     flex: 1,
   },
+  labelText: {
+    color: colors.BLACK,
+    fontSize: 16,
+    marginBottom: 10,
+    lineHeight: 24,
+    fontWeight: '400',
+  },
   error_message: {
     marginTop: 5,
   },

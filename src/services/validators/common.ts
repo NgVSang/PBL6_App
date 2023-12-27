@@ -1,8 +1,10 @@
 import * as Yup from 'yup';
 
-const username = Yup.string().required('Vui lòng nhập tài khoản');
+const username = Yup.string().trim().required('Vui lòng nhập tài khoản');
 
-const string = Yup.string().required('Vui lòng điền thông tin còn thiếu');
+const string = Yup.string()
+  .trim()
+  .required('Vui lòng điền thông tin còn thiếu');
 
 const phone_number = Yup.string()
   .required('Vui lòng nhập số điện thoại')

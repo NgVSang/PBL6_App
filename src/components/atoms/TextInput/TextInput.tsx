@@ -11,6 +11,7 @@ const TextInput: FC<TextInputProps> = ({
   value,
   placeholderTextColor = colors.SEMI_GRAY,
   style,
+  label,
   onBlur,
   onChangeText,
   placeholder = 'Nhập',
@@ -19,6 +20,7 @@ const TextInput: FC<TextInputProps> = ({
   if (formik && fieldValue) {
     return (
       <View style={[styles.container, containerStyle]}>
+        {label && <Text style={styles.labelText}>{label}</Text>}
         <RnTextInput
           value={formik.values[fieldValue]}
           placeholderTextColor={placeholderTextColor}
@@ -38,6 +40,7 @@ const TextInput: FC<TextInputProps> = ({
   }
   return (
     <View style={[styles.container, containerStyle]}>
+      {label && <Text style={styles.labelText}>{label}</Text>}
       <RnTextInput
         value={value}
         placeholder={placeholder}

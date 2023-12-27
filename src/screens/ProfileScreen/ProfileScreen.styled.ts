@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   name: {
-    olor: colors.BLACK,
+    color: colors.BLACK,
     fontSize: 20,
     fontWeight: '600',
     lineHeight: 32,

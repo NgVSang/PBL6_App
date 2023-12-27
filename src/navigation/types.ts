@@ -19,4 +19,5 @@ export type DrawerParamList = {
     data: ICategory;
   };
   Profile: undefined;
+  UpdateProfile: undefined;
 };

@@ -8,3 +8,4 @@ export * from './StepBar';
 export * from './CartItem';
 export * from './Voucher';
 export * from './Order';
+export * from './AddressInput';
