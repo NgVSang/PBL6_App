@@ -26,7 +26,7 @@ const getOrderByID = (id: string) => {
 };
 
 const createPayment = (order: IOrder) => {
-  return instance.post(`${ENDPOINTS.ORDER}/${order._id}`, {
+  return instance.post(`${ENDPOINTS.PAYMENT}/${order._id}`, {
     name: order._id,
     price: order.total || 0,
     currency: 'USD',

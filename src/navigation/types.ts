@@ -4,6 +4,7 @@ import {ICategory, IProduct} from '../types';
 export type RootStackParamList = {
   Login: undefined;
   Home: undefined;
+  ForgotPass: undefined;
   Register: undefined;
   Drawer: NavigatorScreenParams<DrawerParamList> | undefined;
 };

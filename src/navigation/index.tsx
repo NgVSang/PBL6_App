@@ -8,7 +8,12 @@ import {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from './types';
 import {NavigationService} from '../services';
-import {HomeScreen, LoginScreen, RegisterScreen} from '../screens';
+import {
+  ForgotPasswordScreen,
+  HomeScreen,
+  LoginScreen,
+  RegisterScreen,
+} from '../screens';
 import {colors} from '../constants';
 import DrawerNavigation from './DrawerNavigation';
 import {useSelector} from 'react-redux';
@@ -95,6 +100,11 @@ const RootNavigator: FC = () => {
           }}
         />
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen
+          name="ForgotPass"
+          component={ForgotPasswordScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

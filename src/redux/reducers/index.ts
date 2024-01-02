@@ -14,4 +14,8 @@ export {
   updateCart,
 } from './cart.reducer';
 
-export {default as paymentSlice} from './payment.reducer';
+export {
+  default as paymentSlice,
+  paymentSelector,
+  setPaymentLink,
+} from './payment.reducer';

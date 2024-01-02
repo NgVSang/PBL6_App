@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native';
+import {Alert, Linking, Text, View} from 'react-native';
 import React, {FC, useCallback, useMemo, useState} from 'react';
 import {OrderProps} from './Order.types';
 import {styles} from './Order.styled';
@@ -8,6 +8,7 @@ import {Button} from '../../atoms';
 import {OrderApi} from '../../../services/api';
 import {useDispatch} from 'react-redux';
 import Toast from 'react-native-toast-message';
+import {setPaymentLink} from '../../../redux/reducers';
 dayjs.locale('vn');
 
 const Order: FC<OrderProps> = ({data, style}) => {
@@ -19,6 +20,11 @@ const Order: FC<OrderProps> = ({data, style}) => {
     try {
       setIsLoading(true);
       const res = await OrderApi.createPayment(data);
+      console.log(res.data);
+      if (res.data.links[1]?.href) {
+        Linking.openURL(res.data.links[1]?.href || '');
+      }
+      dispatch(setPaymentLink(res.data.links[1]?.href));
     } catch (error) {
       console.log(error);
       Toast.show({
@@ -29,7 +35,7 @@ const Order: FC<OrderProps> = ({data, style}) => {
     } finally {
       setIsLoading(false);
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   const handleCancel = useCallback(async () => {
     try {
@@ -75,7 +81,7 @@ const Order: FC<OrderProps> = ({data, style}) => {
         return <></>;
     }
     return <></>;
-  }, [data.statusOrder, handlePayment, handleCancel]);
+  }, [data.statusOrder, handlePayment, handleCancel, isLoading]);
 
   return (
     <View style={[styles.container, style]}>

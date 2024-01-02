@@ -23,6 +23,12 @@ export const RegisterSchema = Yup.object().shape({
   re_password,
 });
 
+export const ForgotPassSchema = Yup.object().shape({
+  tokenResetPassword: string,
+  password,
+  re_password,
+});
+
 export const UpdateProfileSchema = Yup.object().shape({
   firstName: string,
   lastName: string,

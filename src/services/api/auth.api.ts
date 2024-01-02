@@ -4,6 +4,8 @@ const ENDPOINTS = {
   LOGIN: '/auth/login',
   PROFILE: '/user/me',
   REGISTER: '/auth/register',
+  FORGOT: '/auth/forgot-password',
+  RESET: '/auth/reset-password/',
 };
 
 const login = (data: {username: string; password: string}) => {
@@ -40,9 +42,19 @@ const updateProfile = (
   return instance.put(`/user/${id}`, data);
 };
 
+const forgotPassword = (email: string) => {
+  return instance.post(ENDPOINTS.FORGOT, {email});
+};
+
+const newPassword = (data: {tokenResetPassword: string; password: string}) => {
+  return instance.post(ENDPOINTS.RESET, data);
+};
+
 export const AuthApi = {
   login,
   getProfile,
   register,
   updateProfile,
+  forgotPassword,
+  newPassword,
 };

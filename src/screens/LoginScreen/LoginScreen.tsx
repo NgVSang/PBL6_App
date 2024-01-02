@@ -116,7 +116,10 @@ const LoginScreen: FC<LoginScreenProps> = ({navigation, route}) => {
             </View>
             <Text style={styles.remember}>Ghi nhớ</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.push('ForgotPass');
+            }}>
             <Text style={styles.forgot}>Quên mật khẩu?</Text>
           </TouchableOpacity>
         </View>
