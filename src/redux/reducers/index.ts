@@ -13,3 +13,5 @@ export {
   deleteCartItem,
   updateCart,
 } from './cart.reducer';
+
+export {default as paymentSlice} from './payment.reducer';

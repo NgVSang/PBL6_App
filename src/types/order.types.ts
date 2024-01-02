@@ -25,6 +25,7 @@ export interface IOrder {
   ShipAddress: string;
   ShipPhone: string;
   description: string;
+  total?: number;
   deleted: boolean;
   createdAt: string;
   updatedAt: string;

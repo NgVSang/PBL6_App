@@ -15,8 +15,13 @@ import {Footer, Product} from '../../components';
 import {Carousel} from '../../components';
 import {styles} from './HomeScreen.styled';
 import {sizes} from '../../constants';
-import {carouselContents, categories} from './HomeScreen.constants';
-import {IProduct} from '../../types';
+import {
+  carouselContents,
+  categories,
+  menWatchCategory,
+  womenWatchCategory,
+} from './HomeScreen.constants';
+import {ICategory, IProduct} from '../../types';
 import {ProductApi} from '../../services/api';
 import {NavigationService} from '../../services';
 
@@ -36,6 +41,18 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
       setIsLoading(false);
     }
   }, []);
+
+  const handleSearchCategories = useCallback(
+    (category: ICategory) => {
+      NavigationService.push('Drawer', {
+        screen: 'ProductCategory',
+        params: {
+          data: category,
+        },
+      });
+    },
+    [navigation],
+  );
 
   useEffect(() => {
     handelGetListProduct();
@@ -78,6 +95,9 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
             <View style={styles.genderWrapper}>
               <TouchableOpacity
                 style={styles.genderConainter}
+                onPress={() => {
+                  handleSearchCategories(menWatchCategory);
+                }}
                 activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/male.webp')}
@@ -87,6 +107,9 @@ const HomeScreen: FC<HomeScreenProps> = ({navigation, route}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.genderConainter}
+                onPress={() => {
+                  handleSearchCategories(womenWatchCategory);
+                }}
                 activeOpacity={0.6}>
                 <Image
                   source={require('../../assets/images/female.webp')}

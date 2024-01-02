@@ -22,9 +22,17 @@ export interface IProduct {
 
 export interface ISupplier {
   _id: string;
-  companyName: string;
-  description: string;
-  address: string;
+  companyName?: string;
+  description?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  address?: string;
+  status?: string;
+  deleted?: boolean;
+  logoImage?: string;
+  userID?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IReview {

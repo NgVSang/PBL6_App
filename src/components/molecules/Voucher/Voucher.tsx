@@ -7,9 +7,6 @@ import {colors} from '../../../constants';
 
 const Voucher: FC<VoucherProps> = ({data, onSelect, style, voucherStyle}) => {
   const [selected, setSelected] = useState<IVoucher>();
-
-  console.log(selected);
-
   const handleSelected = useCallback(
     (item: IVoucher) => {
       if (onSelect) {

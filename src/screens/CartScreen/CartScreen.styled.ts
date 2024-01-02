@@ -84,6 +84,7 @@ export const styles = StyleSheet.create({
   couponCodeText: {
     flex: 1,
     color: colors.BLACK,
+    borderBottomWidth: 0,
     fontSize: 16,
     fontWeight: '400',
     lineHeight: 28,
@@ -115,5 +116,25 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 10,
+  },
+  inforWrapper: {
+    padding: 15,
+    borderColor: colors.GRAY,
+    borderRadius: 2,
+    gap: 15,
+    borderWidth: 1,
+    marginBottom: 30,
+  },
+  inforTitle: {
+    color: colors.BLACK,
+    fontSize: 18,
+    fontWeight: '600',
+    lineHeight: 26,
+  },
+  inputStyle: {
+    borderWidth: 1,
+    borderColor: colors.GRAY,
+    borderRadius: 8,
+    paddingHorizontal: 15,
   },
 });

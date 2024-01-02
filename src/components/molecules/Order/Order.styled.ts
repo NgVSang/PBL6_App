@@ -25,4 +25,8 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 22,
   },
+  btnWrapper: {
+    paddingHorizontal: 40,
+    marginTop: 10,
+  },
 });

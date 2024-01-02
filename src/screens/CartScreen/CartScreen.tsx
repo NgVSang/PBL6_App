@@ -1,26 +1,40 @@
-import {
-  Image,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC, useCallback, useMemo, useState} from 'react';
 import {CartScreenProps} from './CartScreen.types';
 import {styles} from './CartScreen.styled';
-import {Button, CartItem, Footer, StepBar, Voucher} from '../../components';
+import {
+  AddressInput,
+  Button,
+  CartItem,
+  Footer,
+  StepBar,
+  TextInput,
+  Voucher,
+} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
-import {cartSelector, deleteCartItem, updateCart} from '../../redux/reducers';
+import {
+  authSelector,
+  cartSelector,
+  deleteCartItem,
+  updateCart,
+} from '../../redux/reducers';
 import {IProduct, IVoucher} from '../../types';
 import {colors} from '../../constants';
 import {convertPrice} from '../../utils/string';
+import {OrderApi} from '../../services/api';
+import Toast from 'react-native-toast-message';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
   const dispatch = useDispatch();
+  const {user} = useSelector(authSelector);
   const {items} = useSelector(cartSelector);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [voucher, setVoucher] = useState<IVoucher>();
+  const [address, setAddress] = useState(user?.Address || '');
+  const [phoneNumber, setPhoneNumber] = useState(user?.phone?.toString() || '');
+  const [description, setDescription] = useState('');
 
   const handleRemove = useCallback(
     (data: IProduct) => {
@@ -82,6 +96,35 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
     return finalTotal;
   }, [subTotal, voucher]);
 
+  const handleCreateOrder = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const IDProducts = items.map(item => item._id.toString());
+      await OrderApi.createOrder({
+        IDProducts: IDProducts,
+        ShipAddress: address,
+        ShipPhone: phoneNumber,
+        description: description,
+        total: total,
+      });
+      Toast.show({
+        type: 'success',
+        text1: 'Đặt hàng thành công',
+      });
+      dispatch(updateCart([]));
+      navigation.navigate('Profile');
+    } catch (error) {
+      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: 'Đặt hàng thất bại',
+        text2: 'Vui lòng thử lại sau',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [address, phoneNumber, description, total, items]);
+
   return (
     <ScrollView style={styles.screen}>
       <View style={styles.container}>
@@ -100,6 +143,27 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
       </View>
       {items.length > 0 && (
         <View style={styles.container}>
+          <View style={styles.inforWrapper}>
+            <Text style={styles.inforTitle}>Thông tin giao hàng</Text>
+            <AddressInput
+              label="Địa chỉ giao hàng*"
+              style={styles.inputStyle}
+              value={address}
+              onChangeText={setAddress}
+            />
+            <TextInput
+              label="Số điện thoại nhận hàng*"
+              style={styles.inputStyle}
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+            />
+            <TextInput
+              label="Ghi chú"
+              style={styles.inputStyle}
+              value={description}
+              onChangeText={setDescription}
+            />
+          </View>
           <View style={styles.couponWrapper}>
             <View>
               <Text style={styles.couponTitle}>Bạn có mã giảm giá không?</Text>
@@ -115,6 +179,7 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
               <TextInput
                 style={styles.couponCodeText}
                 placeholder="Mã giảm giá"
+                containerStyle={{flex: 1}}
                 placeholderTextColor={colors.GRAY}
               />
               <TouchableOpacity activeOpacity={0.6}>
@@ -157,7 +222,12 @@ const CartScreen: FC<CartScreenProps> = ({navigation, route}) => {
                   </Text>
                 </View>
               </View>
-              <Button text="Thanh toán" />
+              <Button
+                text="Đặt hàng"
+                onPress={handleCreateOrder}
+                isLoading={isLoading}
+                disabled={isLoading}
+              />
             </View>
           </View>
         </View>
