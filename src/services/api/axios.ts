@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosResponse} from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {BASE_URL} from '../../config';
 import {store} from '../../redux/store';
 import {logout} from '../../redux/reducers';

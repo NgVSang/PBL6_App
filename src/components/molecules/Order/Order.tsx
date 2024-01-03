@@ -1,4 +1,4 @@
-import {Alert, Linking, Text, View} from 'react-native';
+import {Alert, Linking, Text, TouchableOpacity, View} from 'react-native';
 import React, {FC, useCallback, useMemo, useState} from 'react';
 import {OrderProps} from './Order.types';
 import {styles} from './Order.styled';
@@ -9,6 +9,8 @@ import {OrderApi} from '../../../services/api';
 import {useDispatch} from 'react-redux';
 import Toast from 'react-native-toast-message';
 import {setPaymentLink} from '../../../redux/reducers';
+import {colors} from '../../../constants';
+import {NavigationService} from '../../../services';
 dayjs.locale('vn');
 
 const Order: FC<OrderProps> = ({data, style}) => {
@@ -87,7 +89,17 @@ const Order: FC<OrderProps> = ({data, style}) => {
     <View style={[styles.container, style]}>
       <View style={styles.row}>
         <Text style={styles.labelText}>Number ID</Text>
-        <Text style={styles.valueText}>{data._id.slice(-4)}</Text>
+        <TouchableOpacity
+          style={{flex: 1}}
+          onPress={() => {
+            NavigationService.push<'OrderDetail'>('OrderDetail', {
+              data: data,
+            });
+          }}>
+          <Text style={[styles.valueText, {color: colors.BLUE}]}>
+            {data._id.slice(-4)}
+          </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.row}>
         <Text style={styles.labelText}>Ngày</Text>

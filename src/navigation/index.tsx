@@ -12,6 +12,7 @@ import {
   ForgotPasswordScreen,
   HomeScreen,
   LoginScreen,
+  OrderDetailScreen,
   RegisterScreen,
 } from '../screens';
 import {colors} from '../constants';
@@ -19,6 +20,7 @@ import DrawerNavigation from './DrawerNavigation';
 import {useSelector} from 'react-redux';
 import {authSelector} from '../redux/reducers';
 import {setHeaderConfigAxios} from '../services/api/axios';
+import Header from './Header';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -77,7 +79,6 @@ const RootNavigator: FC = () => {
       <Stack.Navigator
         screenOptions={{
           animation: 'simple_push',
-          headerShown: false,
         }}
         initialRouteName={loggedin ? 'Drawer' : 'Login'}>
         <Stack.Screen
@@ -99,7 +100,18 @@ const RootNavigator: FC = () => {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="OrderDetail"
+          component={OrderDetailScreen}
+          options={{
+            header: props => <Header title="Chi tiết đơn hàng" {...props} />,
+          }}
+        />
         <Stack.Screen
           name="ForgotPass"
           component={ForgotPasswordScreen}

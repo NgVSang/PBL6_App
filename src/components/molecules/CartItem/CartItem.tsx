@@ -4,10 +4,12 @@ import {CartItemProps} from './CartItem.types';
 import {styles} from './CartItem.styled';
 import {Quantity} from '../Quantity';
 import {convertPrice} from '../../../utils/string';
+import {NavigationService} from '../../../services';
 
 const CartItem: FC<CartItemProps> = ({
   data,
   handleDelete,
+  style,
   handleChangeQuantity,
 }) => {
   const onPressDelete = useCallback(() => {
@@ -24,33 +26,49 @@ const CartItem: FC<CartItemProps> = ({
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Image source={{uri: data.pictureLinks[0]}} style={styles.photo} />
       <View style={styles.contentWrapper}>
         <View style={styles.leftWrapper}>
-          <Text style={styles.productName}>{data.nameProduct}</Text>
+          <TouchableOpacity
+            style={{flex: 1}}
+            onPress={() => {
+              NavigationService.push('Drawer', {
+                screen: 'ProductDetail',
+                params: {
+                  data: data,
+                },
+              });
+            }}>
+            <Text style={styles.productName}>{data.nameProduct}</Text>
+          </TouchableOpacity>
           <Text style={styles.inforStyle}>Màu: {data.color[0]}</Text>
           <Text style={styles.inforStyle}>Kích cỡ: {data.size[0]}</Text>
-          <Quantity
-            count={data.count || 1}
-            handleChangeValue={onChangeQuantity}
-            maximum={data.quantity}
-            style={styles.quantityStyle}
-          />
-        </View>
-        <View style={styles.rightWrapper}>
-          <Text style={styles.price}>
-            {convertPrice(data.price * (data.count || 1))} đ
-          </Text>
-          <TouchableOpacity
-            style={styles.deleteBtnWrapper}
-            onPress={onPressDelete}>
-            <Image
-              source={require('../../../assets/icons/close_icon.png')}
-              style={styles.deleteBtn}
+          {handleChangeQuantity && (
+            <Quantity
+              count={data.count || 1}
+              handleChangeValue={onChangeQuantity}
+              maximum={data.quantity}
+              style={styles.quantityStyle}
             />
-          </TouchableOpacity>
+          )}
         </View>
+        {handleDelete && (
+          <View style={styles.rightWrapper}>
+            <Text style={styles.price}>
+              {convertPrice(data.price * (data.count || 1))} đ
+            </Text>
+
+            <TouchableOpacity
+              style={styles.deleteBtnWrapper}
+              onPress={onPressDelete}>
+              <Image
+                source={require('../../../assets/icons/close_icon.png')}
+                style={styles.deleteBtn}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );

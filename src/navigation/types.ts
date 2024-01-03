@@ -1,5 +1,5 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
-import {ICategory, IProduct} from '../types';
+import {ICategory, IOrder, IProduct} from '../types';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -7,6 +7,9 @@ export type RootStackParamList = {
   ForgotPass: undefined;
   Register: undefined;
   Drawer: NavigatorScreenParams<DrawerParamList> | undefined;
+  OrderDetail: {
+    data: IOrder;
+  };
 };
 
 export type DrawerParamList = {
@@ -21,4 +24,7 @@ export type DrawerParamList = {
   };
   Profile: undefined;
   UpdateProfile: undefined;
+  OrderDetail: {
+    data: IOrder;
+  };
 };

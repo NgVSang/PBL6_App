@@ -4,6 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   CartScreen,
   HomeScreen,
+  OrderDetailScreen,
   ProductDetailScreen,
   ProductsCategoryScreen,
   ProfileScreen,
@@ -31,6 +32,7 @@ const DrawerNavigation: FC = () => {
       />
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="UpdateProfile" component={UpdateProfileScreen} />
+      {/* <Drawer.Screen name="OrderDetail" component={OrderDetailScreen} /> */}
     </Drawer.Navigator>
   );
 };

@@ -30,5 +30,5 @@ export interface IOrder {
   createdAt: string;
   updatedAt: string;
   __v: 0;
-  feedbackSupplier: string;
+  feedbackSupplier?: string;
 }
