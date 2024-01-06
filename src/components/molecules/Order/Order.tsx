@@ -5,7 +5,7 @@ import {styles} from './Order.styled';
 import dayjs from 'dayjs';
 import {convertPrice, getStatusOrder} from '../../../utils/string';
 import {Button} from '../../atoms';
-import {OrderApi} from '../../../services/api';
+import {OrderApi, ProductApi} from '../../../services/api';
 import {useDispatch} from 'react-redux';
 import Toast from 'react-native-toast-message';
 import {setPaymentLink} from '../../../redux/reducers';
@@ -21,10 +21,18 @@ const Order: FC<OrderProps> = ({data, style}) => {
   const handlePayment = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await OrderApi.createPayment(data);
-      console.log(res.data);
+      const convert = await ProductApi.convertMoney();
+      let total = parseFloat(((data.total || 0) / 24380).toFixed(2));
+      if (convert.data?.rates) {
+        const rates = convert.data.rates;
+        total = parseFloat(
+          ((data.total || 0) / (rates.VND / rates.USD)).toFixed(2),
+        );
+      }
+      const res = await OrderApi.createPayment({...data, total: total});
       if (res.data.links[1]?.href) {
-        Linking.openURL(res.data.links[1]?.href || '');
+        console.log(res.data.links[1]?.href);
+        // Linking.openURL(res.data.links[1]?.href || '');
       }
       dispatch(setPaymentLink(res.data.links[1]?.href));
     } catch (error) {

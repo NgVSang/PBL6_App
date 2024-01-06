@@ -36,6 +36,17 @@ const getProductDiscount = (id: string) => {
   return instance.get<IDiscount[]>(`${ENDPOINTS.LISTPRODUCT}/${id}/discount`);
 };
 
+const convertMoney = () => {
+  return instance.get(`/latest`, {
+    baseURL: 'http://api.exchangeratesapi.io/v1',
+    params: {
+      access_key: '4dcfdcfe87e8cbc8becca1a281b3e1d8',
+      format: 1,
+      symbols: 'VND,USD',
+    },
+  });
+};
+
 export const ProductApi = {
   getListProduct,
   getReviewProduct,
@@ -43,4 +54,5 @@ export const ProductApi = {
   getProductsByCategory,
   addReviewProduct,
   getProductDiscount,
+  convertMoney,
 };
