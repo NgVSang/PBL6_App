@@ -1,5 +1,5 @@
 import {Image, ScrollView, Text, View} from 'react-native';
-import React, {FC, useMemo} from 'react';
+import React, {FC, useCallback, useMemo, useState} from 'react';
 import {OrderDetailScreenProps} from './OrderDetailScreen.types';
 import {styles} from './OrderDetailScreen.styled';
 import {CartItem, Footer} from '../../components';
@@ -21,6 +21,10 @@ const OrderDetailScreen: FC<OrderDetailScreenProps> = ({navigation, route}) => {
         content =
           'Vui lòng đợi người bán xác nhận trước khi tiến hành thanh toán';
         break;
+      case 'REJECTED':
+        title = 'Đơn hàng đã bị từ chối';
+        content = 'Vui lòng xem phản hồi từ cửa hàng';
+        break;
       case 'ACCEPTED':
         title = 'Đơn hàng đã được xác nhận';
         content = 'Vui lòng thanh toán đơn hàng';
@@ -28,6 +32,22 @@ const OrderDetailScreen: FC<OrderDetailScreenProps> = ({navigation, route}) => {
       case 'PAYMENT_SUCCESS':
         title = 'Đơn hàng đã được thanh toán';
         content = 'Đơn hàng sẽ sớm được giao đến bạn';
+        break;
+      case 'PAYMENT_FAIL':
+        title = 'Đơn hàng thanh toán thất bại';
+        content = 'Bạn đã thanh toán thất bại đơn hàng này';
+        break;
+      case 'SHIPPING':
+        title = 'Đơn hàng đang giao đến bạn';
+        content = 'Bạn có thể kiểm tra tình trạng đơn hàng';
+        break;
+      case 'SHIPPING_SUCCESS':
+        title = 'Đơn hàng đã giao thành công';
+        content = 'Vui lòng kiểm tra hàng của bạn';
+        break;
+      case 'FINISHED':
+        title = 'Đơn hàng đã hoàn thành';
+        content = 'Cảm ơn bạn đã tin tưởng cửa hàng.';
         break;
       default:
         break;
@@ -74,7 +94,7 @@ const OrderDetailScreen: FC<OrderDetailScreenProps> = ({navigation, route}) => {
           <View style={styles.inforWrapper}>
             <Text style={styles.inforTitle}>Thời gian đặt hàng</Text>
             <Text style={styles.inforContent}>
-              {dayjs(data.orderDate).format('DD-MM-YYYY  hh:mm')}
+              {dayjs(data.orderDate).format('DD-MM-YYYY  HH:mm')}
             </Text>
           </View>
           {data.feedbackSupplier && (

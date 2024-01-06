@@ -3,7 +3,7 @@ import React, {FC, useCallback, useMemo, useState} from 'react';
 import {OrderProps} from './Order.types';
 import {styles} from './Order.styled';
 import dayjs from 'dayjs';
-import {convertPrice} from '../../../utils/string';
+import {convertPrice, getStatusOrder} from '../../../utils/string';
 import {Button} from '../../atoms';
 import {OrderApi} from '../../../services/api';
 import {useDispatch} from 'react-redux';
@@ -68,21 +68,20 @@ const Order: FC<OrderProps> = ({data, style}) => {
             />
           </View>
         );
-      case 'PENDING':
-        return (
-          <View style={styles.btnWrapper}>
-            <Button
-              isLoading={isLoading}
-              disabled={isLoading}
-              text="Hủy đơn hàng"
-              onPress={handleCancel}
-            />
-          </View>
-        );
+      // case 'FINISHED':
+      //   return (
+      //     <View style={styles.btnWrapper}>
+      //       <Button
+      //         isLoading={isLoading}
+      //         disabled={isLoading}
+      //         text="Đánh giá đơn hàng"
+      //         onPress={handleCancel}
+      //       />
+      //     </View>
+      //   );
       default:
         return <></>;
     }
-    return <></>;
   }, [data.statusOrder, handlePayment, handleCancel, isLoading]);
 
   return (
@@ -109,7 +108,7 @@ const Order: FC<OrderProps> = ({data, style}) => {
       </View>
       <View style={styles.row}>
         <Text style={styles.labelText}>Thạng thái</Text>
-        <Text style={styles.valueText}>{data.statusOrder}</Text>
+        <Text style={styles.valueText}>{getStatusOrder(data.statusOrder)}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.labelText}>Tổng giá</Text>

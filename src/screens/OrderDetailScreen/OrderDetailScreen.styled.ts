@@ -128,4 +128,40 @@ export const styles = StyleSheet.create({
     flexShrink: 1,
     textAlign: 'right',
   },
+  ratingWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  reviewText: {
+    color: colors.BLACK,
+    fontSize: 13,
+    fontWeight: '400',
+    lineHeight: 20,
+  },
+  titleText: {
+    color: colors.BLACK,
+    fontSize: 32,
+    fontWeight: '500',
+    lineHeight: 44,
+    letterSpacing: -0.4,
+  },
+  reviewWrapper: {
+    paddingVertical: 24,
+    flexDirection: 'column',
+    rowGap: 24,
+  },
+  evaluateTitle: {
+    color: colors.BLACK,
+    fontSize: 28,
+    lineHeight: 32,
+    fontWeight: '500',
+  },
+  searchInput: {
+    color: colors.BLACK,
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 24,
+    flex: 1,
+  },
 });

@@ -27,7 +27,9 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
     try {
       setIsLoading(true);
       const res = await OrderApi.getListOrder();
-      setOrders(res.data);
+      let arr = res.data;
+      arr.reverse();
+      setOrders(arr);
     } catch (error) {
       console.log(error);
     } finally {

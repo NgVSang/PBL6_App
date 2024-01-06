@@ -18,6 +18,7 @@ export interface IProduct {
   createdAt: string;
   updatedAt: string;
   count?: number;
+  soldNumber?: number;
 }
 
 export interface ISupplier {

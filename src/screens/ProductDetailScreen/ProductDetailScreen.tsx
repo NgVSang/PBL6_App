@@ -59,7 +59,9 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
   const handleGetReview = useCallback(async () => {
     try {
       const res = await ProductApi.getReviewProduct(data._id);
-      setReviews(res.data);
+      let arr = res.data;
+      arr.reverse();
+      setReviews(arr);
     } catch (error) {
       console.log(error);
     }
@@ -114,8 +116,6 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(data.price * (1 - (discount?.discount || 0)));
-
   const handleAddToCart = useCallback(() => {
     if (color !== '' && size !== '') {
       const check = items.filter(item => item._id === data._id);
@@ -127,6 +127,11 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
         newColorArr = [color, ...newColorArr];
         const product: IProduct = {
           ...data,
+          price: discount?.discount
+            ? parseFloat(
+                (data.price * (1 - (discount.discount || 0))).toFixed(2),
+              )
+            : data.price,
           size: newSizeArr,
           color: newColorArr,
           count: count,
@@ -142,7 +147,16 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
     } else {
       Alert.alert('Thiếu thông tin', 'Vui lòng chọn đầy đủ thông tin');
     }
-  }, [color, size, items, data, count, dispatch, navigation]);
+  }, [
+    color,
+    size,
+    items,
+    data,
+    count,
+    dispatch,
+    navigation,
+    discount?.discount,
+  ]);
 
   const handleSearchCategories = useCallback(
     (category: ICategory) => {
@@ -240,6 +254,12 @@ const ProductDetailScreen: FC<ProductDetailScreenProps> = ({
             <View style={styles.inforRowWrapper}>
               <Text style={styles.inforContentTitle}>Số lượng còn lại:</Text>
               <Text style={styles.inforContentText}>{data.quantity} chiếc</Text>
+            </View>
+            <View style={styles.inforRowWrapper}>
+              <Text style={styles.inforContentTitle}>Số lượng đã bán:</Text>
+              <Text style={styles.inforContentText}>
+                {data.soldNumber} chiếc
+              </Text>
             </View>
             <View style={styles.inforRowWrapper}>
               <Text style={styles.inforContentTitle}>Màu sắc:</Text>
